@@ -29,7 +29,7 @@ final class SwimmingPoolTask extends AsyncTask<Void, Void, ValueOrException<Swim
         SwimmingPoolService service = ServiceRegistry.swimmingPoolService();
 
         try {
-            SwimmingPool pool = service.basicInfo();
+            SwimmingPool pool = service.getSwimmingPool();
             return ValueOrException.success(pool);
         } catch (SwimmingPoolException exc) {
             return ValueOrException.exception(exc);

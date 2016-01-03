@@ -1,6 +1,5 @@
 package cz.jalasoft.mobile.swimming.infrastructure;
 
-import cz.jalasoft.mobile.swimming.domain.model.SwimmingPoolException;
 import cz.jalasoft.mobile.swimming.domain.model.SwimmingPoolService;
 import cz.jalasoft.mobile.swimming.infrastructure.webpage.WebPageSwimmingPoolService;
 

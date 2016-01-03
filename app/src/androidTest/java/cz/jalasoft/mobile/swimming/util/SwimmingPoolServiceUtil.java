@@ -13,7 +13,7 @@ public class SwimmingPoolServiceUtil {
     public static void main(String[] args) throws SwimmingPoolException {
 
         SwimmingPoolService service = ServiceRegistry.swimmingPoolService();
-        SwimmingPool pool = service.basicInfo();
+        SwimmingPool pool = service.getSwimmingPool();
 
         System.out.println("Attendance: " + pool.attendance());
     }

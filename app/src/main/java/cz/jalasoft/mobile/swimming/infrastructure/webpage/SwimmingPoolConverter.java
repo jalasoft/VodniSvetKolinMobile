@@ -9,7 +9,7 @@ import cz.jalasoft.mobile.swimming.infrastructure.webpage.exception.SwimmingPool
 /**
  * Created by lastovicka on 1/2/16.
  */
-public final class SwimmingPoolFactory {
+public final class SwimmingPoolConverter {
 
     private static final Pattern ATTENDANCE_PATTERN = Pattern.compile("<div class=\"bubble\">\\s*<div class=\"value\">\\s*(\\d+)\\s*</div>\\s*</div>");
 

@@ -34,9 +34,9 @@ public final class WebPageSwimmingPoolService implements SwimmingPoolService {
     }
 
     @Override
-    public SwimmingPool basicInfo() throws SwimmingPoolException {
+    public SwimmingPool getSwimmingPool() throws SwimmingPoolException {
         WebPage poolPage = WebPage.loadPage(pageUrl);
-        SwimmingPool pool = SwimmingPoolFactory.swimmingPool(poolPage);
+        SwimmingPool pool = SwimmingPoolConverter.swimmingPool(poolPage);
         return pool;
     }
 
@@ -44,7 +44,7 @@ public final class WebPageSwimmingPoolService implements SwimmingPoolService {
     public static void main(String[] args) throws SwimmingPoolException {
         WebPageSwimmingPoolService service = new WebPageSwimmingPoolService("http://vodnisvetkolin.cz/Default.aspx");
 
-        SwimmingPool info = service.basicInfo();
+        SwimmingPool info = service.getSwimmingPool();
         System.out.println(info);
     }
 }

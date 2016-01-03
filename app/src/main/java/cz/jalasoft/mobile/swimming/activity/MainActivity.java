@@ -69,9 +69,9 @@ public final class MainActivity extends AppCompatActivity {
             case 1:
                 return "  " + attendanceString;
             case 2:
-                return " " + attendanceString;
+                return "  " + attendanceString;
             default:
-                return attendanceString;
+                return "  " + attendanceString;
         }
     }
 

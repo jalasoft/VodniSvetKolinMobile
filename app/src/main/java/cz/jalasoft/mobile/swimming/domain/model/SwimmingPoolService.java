@@ -5,5 +5,5 @@ package cz.jalasoft.mobile.swimming.domain.model;
  */
 public interface SwimmingPoolService {
 
-    SwimmingPool basicInfo() throws SwimmingPoolException;
+    SwimmingPool getSwimmingPool() throws SwimmingPoolException;
 }
