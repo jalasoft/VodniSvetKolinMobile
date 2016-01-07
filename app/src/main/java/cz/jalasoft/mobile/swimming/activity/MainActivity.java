@@ -11,6 +11,8 @@ import android.widget.Toast;
 import cz.jalasoft.mobile.swimming.R;
 import cz.jalasoft.mobile.swimming.domain.model.SwimmingPool;
 
+import static android.view.View.*;
+
 public final class MainActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
@@ -80,10 +82,10 @@ public final class MainActivity extends AppCompatActivity {
     }
 
     void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(VISIBLE);
     }
 
     void hideProgress() {
-        progressBar.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(INVISIBLE);
     }
 }
