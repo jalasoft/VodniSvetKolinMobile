@@ -4,5 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="title_size">20dp</dimen>
-    <dimen name="visitor_count_size">70dp</dimen>
+    <dimen name="attendance_font_size">70dp</dimen>
+    <dimen name="attendance_bubble_padding">15dp</dimen>
 </resources>

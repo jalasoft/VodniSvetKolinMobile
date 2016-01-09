@@ -4,6 +4,5 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="mainBackground">#0D8B97</color>
     <color name="toolsPanelBackgroup">#29678C</color>
 </resources>
