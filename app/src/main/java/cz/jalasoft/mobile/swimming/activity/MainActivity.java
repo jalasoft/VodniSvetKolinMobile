@@ -1,23 +1,24 @@
 package cz.jalasoft.mobile.swimming.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.ImageButton;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import cz.jalasoft.mobile.swimming.R;
 import cz.jalasoft.mobile.swimming.domain.model.SwimmingPool;
 
-import static android.view.View.*;
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 
 public final class MainActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
-    private ImageButton refreshButton;
     private TextView attendanceText;
 
     @Override
@@ -25,24 +26,27 @@ public final class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = initToolbar();
+        setSupportActionBar(toolbar);
+    }
+
+    private Toolbar initToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.attendance);
+        toolbar.setTitleTextColor(Color.WHITE);
+
+        return toolbar;
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         initViews();
-
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                refresh();
-            }
-        });
     }
 
     private void initViews() {
         progressBar = (ProgressBar) findViewById(R.id.attendance_progress);
-        refreshButton = (ImageButton) findViewById(R.id.visitor_count_refresh);
         attendanceText = (TextView) findViewById(R.id.attendance_count);
     }
 
@@ -51,6 +55,24 @@ public final class MainActivity extends AppCompatActivity {
         super.onResume();
 
         refresh();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                refresh();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void refresh() {

@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Vodní Svět Kolín</string>
+    <string name="app_name">Vodní Svět</string>
+    <string name="attendance">Obsazenost</string>
 </resources>
