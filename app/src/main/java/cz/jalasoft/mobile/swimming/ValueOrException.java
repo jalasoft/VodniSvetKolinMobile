@@ -1,22 +1,23 @@
 package cz.jalasoft.mobile.swimming;
 
 /**
- * Created by lastovicka on 1/2/16.
+ * A value that can be either success (value) or fail (exception)
+ * Created by Honza "Honzales" Lastovicka on 1/2/16.
  */
-public final class ValueOrException<T> {
+public final class ValueOrException<T, E extends Exception> {
 
-    public static <T> ValueOrException<T> success(T value) {
+    public static <T, E extends Exception> ValueOrException<T, E> success(T value) {
         if (value == null) {
             throw new IllegalArgumentException("Value must not be null.");
         }
-        return new ValueOrException<T>(value, null);
+        return new ValueOrException<T, E>(value, null);
     }
 
-    public static <T> ValueOrException<T> exception(Exception exc) {
+    public static <T, E extends Exception> ValueOrException<T, E> exception(E exc) {
         if (exc == null) {
             throw new IllegalArgumentException("Exception must not be null.");
         }
-        return new ValueOrException<T>(null, exc);
+        return new ValueOrException<T, E>(null, exc);
     }
 
     //-----------------------------------------------------------
@@ -24,11 +25,11 @@ public final class ValueOrException<T> {
     //-----------------------------------------------------------
 
     private final T value;
-    private final Exception error;
+    private final E exception;
 
-    private ValueOrException(T value, Exception error) {
+    private ValueOrException(T value, E error) {
         this.value = value;
-        this.error = error;
+        this.exception = error;
     }
 
     public T value() {
@@ -42,14 +43,14 @@ public final class ValueOrException<T> {
         return value != null;
     }
 
-    public boolean isError() {
-        return error != null;
+    public boolean isFail() {
+        return value == null;
     }
 
-    public Exception exception() {
-        if (error == null) {
+    public E exception() {
+        if (exception == null) {
             throw new IllegalStateException("Error not available.");
         }
-        return error;
+        return exception;
     }
 }

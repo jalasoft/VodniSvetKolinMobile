@@ -6,27 +6,22 @@ import cz.jalasoft.mobile.swimming.ValueOrException;
 import cz.jalasoft.mobile.swimming.domain.model.SwimmingPool;
 import cz.jalasoft.mobile.swimming.domain.model.SwimmingPoolException;
 import cz.jalasoft.mobile.swimming.domain.model.SwimmingPoolService;
-import cz.jalasoft.mobile.swimming.infrastructure.ServiceRegistry;
+import cz.jalasoft.mobile.swimming.infrastructure.DomainRegistry;
 
 /**
- * Created by lastovicka on 1/2/16.
+ * Created by Honza "Honzales" Lastovicka on 1/2/16.
  */
-final class SwimmingPoolTask extends AsyncTask<Void, Void, ValueOrException<SwimmingPool>> {
+final class SwimmingPoolTask extends AsyncTask<Void, Void, ValueOrException<SwimmingPool, SwimmingPoolException>> {
 
-    private final MainActivity activity;
+    private final SwimmingPoolDisplay display;
 
-    SwimmingPoolTask(MainActivity activity) {
-        this.activity = activity;
+    SwimmingPoolTask(SwimmingPoolDisplay display) {
+        this.display = display;
     }
 
     @Override
-    protected void onPreExecute() {
-        activity.showProgress();
-    }
-
-    @Override
-    protected ValueOrException<SwimmingPool> doInBackground(Void... params) {
-        SwimmingPoolService service = ServiceRegistry.swimmingPoolService();
+    protected ValueOrException<SwimmingPool, SwimmingPoolException> doInBackground(Void... params) {
+        SwimmingPoolService service = DomainRegistry.swimmingPoolService();
 
         try {
             SwimmingPool pool = service.getSwimmingPool();
@@ -38,13 +33,11 @@ final class SwimmingPoolTask extends AsyncTask<Void, Void, ValueOrException<Swim
 
 
     @Override
-    protected void onPostExecute(ValueOrException<SwimmingPool> result) {
-        activity.hideProgress();
-
-        if (result.isError()) {
-            activity.handleException(result.exception());
+    protected void onPostExecute(ValueOrException<SwimmingPool, SwimmingPoolException> result) {
+        if (result.isFail()) {
+            display.handleFail(result.exception());
         } else {
-            activity.displaySwimmingPool(result.value());
+            display.update(result.value());
         }
 
     }

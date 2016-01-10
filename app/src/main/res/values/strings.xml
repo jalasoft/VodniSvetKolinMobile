@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Vodní Svět</string>
     <string name="attendance">Obsazenost</string>
+    <string name="tracking">Sledování</string>
+    <string name="pool_open">Vodní Svět je otevřen.</string>
+    <string name="pool_closed">Vodní Svět je uzavřen.</string>
+    <string name="attendance_total">Aktuální počet návštěvníků.</string>
+    <string name="attendance_percentage">Procentuální obsazenost.</string>
+    <string name="trackingOn">Zapnuto</string>
+    <string name="trackingOff">Vypnuto</string>
+
+    <string name="title_activity_attendance_watching">AttendanceWatchingActivity</string>
 </resources>

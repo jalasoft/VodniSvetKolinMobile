@@ -17,15 +17,17 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
+
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/attendance_bubble_padding"
+        android:layout_below="@id/toolbar"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".activity.MainActivity"
-        tools:showIn="@layout/activity_main"
+        tools:context=".activity.AttendanceActivity"
+        tools:showIn="@layout/activity_attendance"
         android:id="@+id/frameLayout">
 
         <ImageView
@@ -42,8 +44,26 @@
             android:text=""
             android:textStyle="bold"
             android:textSize="@dimen/attendance_font_size"
-            android:id="@+id/attendance_count"
+            android:id="@+id/attendance_total"
             android:gravity="center"/>
+
+        <ImageView
+            android:id="@+id/open_closed_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@android:color/white"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:paddingBottom="5dp"
+            android:id="@+id/attendance_percentage"
+            android:layout_gravity="right|top" />
 
         <ProgressBar
             android:layout_width="wrap_content"

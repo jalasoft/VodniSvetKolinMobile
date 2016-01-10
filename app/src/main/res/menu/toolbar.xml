@@ -4,9 +4,15 @@
 
     <item
         android:id="@+id/action_refresh"
-        android:icon="@drawable/refresh_icon"
+        android:icon="@drawable/ic_autorenew_white_24dp"
         android:title="@string/attendance"
         android:orderInCategory="100"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_track"
+        android:icon="@drawable/ic_track_changes_white_24dp"
+        android:title="@string/tracking"
         app:showAsAction="always"/>
 
 </menu>
