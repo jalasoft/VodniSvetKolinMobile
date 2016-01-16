@@ -1,4 +1,4 @@
-package cz.jalasoft.mobile.swimming.infrastructure.webpage;
+package cz.jalasoft.mobile.swimming.infrastructure.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import cz.jalasoft.mobile.swimming.domain.model.SwimmingPoolException;
-import cz.jalasoft.mobile.swimming.infrastructure.webpage.exception.SwimmingPoolNotAvailableException;
+import cz.jalasoft.mobile.swimming.infrastructure.service.exception.SwimmingPoolNotAvailableException;
 
 /**
  * Created by lastovicka on 1/2/16.

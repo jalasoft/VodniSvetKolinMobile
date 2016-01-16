@@ -1,4 +1,4 @@
-package cz.jalasoft.mobile.swimming.activity;
+package cz.jalasoft.mobile.swimming.android.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,15 +16,16 @@ import android.widget.Toast;
 
 import cz.jalasoft.mobile.swimming.R;
 import cz.jalasoft.mobile.swimming.domain.model.SwimmingPool;
+import cz.jalasoft.mobile.swimming.util.AsyncCallback;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
+import static cz.jalasoft.mobile.swimming.android.Application.applicationService;
 
 /**
  *
  */
-public final class AttendanceActivity extends AppCompatActivity implements SwimmingPoolDisplay {
-
+public final class AttendanceActivity extends AppCompatActivity {
 
     private TextView attendanceTotalText;
     private TextView attendancePercentage;
@@ -53,6 +54,8 @@ public final class AttendanceActivity extends AppCompatActivity implements Swimm
         super.onStart();
 
         initViews();
+
+        refresh();
     }
 
     private void initViews() {
@@ -83,7 +86,7 @@ public final class AttendanceActivity extends AppCompatActivity implements Swimm
     protected void onResume() {
         super.onResume();
 
-        refresh();
+        //refresh();
     }
 
     @Override
@@ -111,11 +114,24 @@ public final class AttendanceActivity extends AppCompatActivity implements Swimm
     private void refresh() {
         showProgress();
 
-        try {
-            new SwimmingPoolTask(this).execute();
-        } catch (Exception exc) {
-            handleFail(exc);
-        }
+        applicationService().getSwimmingPool(new AsyncCallback<SwimmingPool>() {
+
+            @Override
+            public void process(SwimmingPool pool) {
+                hideProgress();
+
+                displayAttendanceTotal(pool);
+                displayAttendancePercentage(pool);
+                displayOpenClosed(pool);
+            }
+
+            @Override
+            public void processFail(Exception exc) {
+                hideProgress();
+
+                Toast.makeText(getApplicationContext(), exc.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void startTrackingActivity() {
@@ -129,19 +145,6 @@ public final class AttendanceActivity extends AppCompatActivity implements Swimm
 
     private void hideProgress() {
         progressBar.setVisibility(INVISIBLE);
-    }
-
-    //--------------------------------------------------------------
-    //SWIMMING POOL DISPLAY
-    //--------------------------------------------------------------
-
-    @Override
-    public void update(SwimmingPool pool) {
-        hideProgress();
-
-        displayAttendanceTotal(pool);
-        displayAttendancePercentage(pool);
-        displayOpenClosed(pool);
     }
 
     private void displayAttendanceTotal(SwimmingPool pool) {
@@ -193,12 +196,5 @@ public final class AttendanceActivity extends AppCompatActivity implements Swimm
                 return true;
             }
         });
-    }
-
-    @Override
-    public void handleFail(Exception exc) {
-        hideProgress();
-
-        Toast.makeText(getApplicationContext(), exc.getMessage(), Toast.LENGTH_LONG).show();
     }
 }

@@ -26,7 +26,7 @@
         android:padding="@dimen/attendance_bubble_padding"
         android:layout_below="@id/toolbar"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".activity.AttendanceActivity"
+        tools:context=".android.activity.AttendanceActivity"
         tools:showIn="@layout/activity_attendance"
         android:id="@+id/frameLayout">
 

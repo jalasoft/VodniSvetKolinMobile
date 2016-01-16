@@ -1,4 +1,4 @@
-package cz.jalasoft.mobile.swimming.infrastructure.webpage;
+package cz.jalasoft.mobile.swimming.infrastructure.service;
 
 import java.net.MalformedURLException;
 import java.net.URL;

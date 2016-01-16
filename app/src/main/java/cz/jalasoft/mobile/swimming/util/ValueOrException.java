@@ -1,4 +1,4 @@
-package cz.jalasoft.mobile.swimming;
+package cz.jalasoft.mobile.swimming.util;
 
 /**
  * A value that can be either success (value) or fail (exception)

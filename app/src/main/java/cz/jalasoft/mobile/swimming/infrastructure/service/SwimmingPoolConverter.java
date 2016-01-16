@@ -1,13 +1,10 @@
-package cz.jalasoft.mobile.swimming.infrastructure.webpage;
+package cz.jalasoft.mobile.swimming.infrastructure.service;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cz.jalasoft.mobile.swimming.domain.model.SwimmingPool;
-import cz.jalasoft.mobile.swimming.infrastructure.webpage.exception.SwimmingPoolContentPageDoesNotMatchException;
+import cz.jalasoft.mobile.swimming.infrastructure.service.exception.SwimmingPoolContentPageDoesNotMatchException;
 
 /**
  * Created by Honza "Honzales" Lastovicka on 1/2/16.

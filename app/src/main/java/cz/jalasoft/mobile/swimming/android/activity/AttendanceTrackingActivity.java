@@ -1,4 +1,4 @@
-package cz.jalasoft.mobile.swimming.activity;
+package cz.jalasoft.mobile.swimming.android.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
