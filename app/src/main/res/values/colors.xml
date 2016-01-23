@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="toolsPanelBackgroup">#29678C</color>
+    <color name="attendanceTrackingTimeBackgroud">#80000000</color>
+    <color name="attendanceTrackingTimeFontColor">#FFFFFF</color>
 </resources>

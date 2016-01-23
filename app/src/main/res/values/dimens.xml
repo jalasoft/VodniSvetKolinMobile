@@ -6,4 +6,5 @@
     <dimen name="title_size">20dp</dimen>
     <dimen name="attendance_font_size">70dp</dimen>
     <dimen name="attendance_bubble_padding">15dp</dimen>
+    <dimen name="attendanceTrackingTimeFontSize">30dp</dimen>
 </resources>

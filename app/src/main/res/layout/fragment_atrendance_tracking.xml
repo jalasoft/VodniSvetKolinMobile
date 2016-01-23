@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/background"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_attendance_tracking"
+    tools:context=".android.fragment.AttendanceTrackingFragment">
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOn="@string/trackingOn"
+        android:textOff="@string/trackingOff"
+        android:id="@+id/turnTrackingOnOff"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        android:layout_marginTop="50dp"
+        android:id="@+id/trackingTimeLayout"
+        android:background="@drawable/attendance_tracking_time_background">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="16:00 - 18:00"
+            android:textColor="@color/attendanceTrackingTimeFontColor"
+            android:textStyle="bold"
+            android:textSize="@dimen/attendanceTrackingTimeFontSize"
+            android:id="@+id/trackingAttendanceTimeView"
+            android:paddingBottom="20dp"
+            android:paddingTop="10dp"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        android:layout_marginTop="35dp"
+        android:layout_below="@id/trackingTimeLayout"
+        android:id="@+id/trackingAttendanceLayout"
+        android:background="@drawable/attendance_tracking_time_background">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="105"
+            android:textColor="@color/attendanceTrackingTimeFontColor"
+            android:textStyle="bold"
+            android:textSize="@dimen/attendanceTrackingTimeFontSize"
+            android:id="@+id/trackingAttendanceView"
+            android:paddingBottom="20dp"
+            android:paddingTop="10dp"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+</RelativeLayout>

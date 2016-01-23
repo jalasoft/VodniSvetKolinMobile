@@ -8,6 +8,11 @@
     <string name="attendance_percentage">Procentuální obsazenost.</string>
     <string name="trackingOn">Zapnuto</string>
     <string name="trackingOff">Vypnuto</string>
+    <string name="back_to_display">Zpět</string>
 
     <string name="title_activity_attendance_watching">AttendanceWatchingActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_application">ApplicationActivity</string>
 </resources>

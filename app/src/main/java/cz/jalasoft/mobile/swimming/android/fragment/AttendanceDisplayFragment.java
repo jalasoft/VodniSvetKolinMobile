@@ -1,20 +1,22 @@
-package cz.jalasoft.mobile.swimming.android.activity;
+package cz.jalasoft.mobile.swimming.android.fragment;
 
-import android.content.Intent;
-import android.graphics.Color;
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import cz.jalasoft.mobile.swimming.R;
+import cz.jalasoft.mobile.swimming.android.activity.ApplicationFlow;
 import cz.jalasoft.mobile.swimming.domain.model.SwimmingPool;
 import cz.jalasoft.mobile.swimming.util.AsyncCallback;
 
@@ -22,10 +24,16 @@ import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static cz.jalasoft.mobile.swimming.android.Application.applicationService;
 
-/**
- *
- */
-public final class AttendanceActivity extends AppCompatActivity {
+public final class AttendanceDisplayFragment extends Fragment {
+
+    public static AttendanceDisplayFragment newInstance() {
+        AttendanceDisplayFragment fragment = new AttendanceDisplayFragment();
+        //Bundle args = new Bundle();
+        //args.putString(ARG_PARAM1, param1);
+        //args.putString(ARG_PARAM2, param2);
+        //fragment.setArguments(args);
+        return fragment;
+    }
 
     private TextView attendanceTotalText;
     private TextView attendancePercentage;
@@ -33,82 +41,70 @@ public final class AttendanceActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
 
+    private ApplicationFlow flow;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        if (!(activity instanceof ApplicationFlow)) {
+            throw new IllegalStateException("Parent activity is supposed to be an application flow.");
+        }
+
+        this.flow = (ApplicationFlow) activity;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_attendance);
-        setSupportActionBar(initToolbar());
+        setHasOptionsMenu(true);
+
+        //if (getArguments() != null) {
+            //mParam1 = getArguments().getString(ARG_PARAM1);
+            //mParam2 = getArguments().getString(ARG_PARAM2);
+        //}
     }
 
-    private Toolbar initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.attendance);
-        toolbar.setTitleTextColor(Color.WHITE);
 
-        return toolbar;
-    }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         initViews();
-
-        refresh();
     }
 
     private void initViews() {
-        attendanceTotalText = (TextView) findViewById(R.id.attendance_total);
+        attendanceTotalText = (TextView) getView().findViewById(R.id.attendance_total);
         attendanceTotalText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Toast.makeText(getApplicationContext(), R.string.attendance_total, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), R.string.attendance_total, Toast.LENGTH_LONG).show();
                 return true;
             }
         });
 
-        attendancePercentage = (TextView) findViewById(R.id.attendance_percentage);
+        attendancePercentage = (TextView) getView().findViewById(R.id.attendance_percentage);
         attendancePercentage.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Toast.makeText(getApplicationContext(), R.string.attendance_percentage, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), R.string.attendance_percentage, Toast.LENGTH_LONG).show();
                 return true;
             }
         });
 
-        openClosedImage = (ImageView) findViewById(R.id.open_closed_image);
+        openClosedImage = (ImageView) getView().findViewById(R.id.open_closed_image);
 
-        progressBar = (ProgressBar) findViewById(R.id.attendance_progress);
+        progressBar = (ProgressBar) getView().findViewById(R.id.attendance_progress);
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
 
-        //refresh();
-    }
+        refresh();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_refresh:
-                refresh();
-                return true;
-
-            case R.id.action_track:
-                startTrackingActivity();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     private void refresh() {
@@ -129,14 +125,9 @@ public final class AttendanceActivity extends AppCompatActivity {
             public void processFail(Exception exc) {
                 hideProgress();
 
-                Toast.makeText(getApplicationContext(), exc.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), exc.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    private void startTrackingActivity() {
-        Intent intent = new Intent(getBaseContext(), AttendanceTrackingActivity.class);
-        startActivity(intent);
     }
 
     private void showProgress() {
@@ -181,7 +172,7 @@ public final class AttendanceActivity extends AppCompatActivity {
         openClosedImage.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Toast.makeText(getApplicationContext(), getString(R.string.pool_open), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.pool_open), Toast.LENGTH_LONG).show();
                 return true;
             }
         });
@@ -192,9 +183,42 @@ public final class AttendanceActivity extends AppCompatActivity {
         openClosedImage.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Toast.makeText(getApplicationContext(), getString(R.string.pool_closed), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.pool_closed), Toast.LENGTH_LONG).show();
                 return true;
             }
         });
     }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_attendance_display, container, false);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.attendance_display_fragment_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int selectedItem = item.getItemId();
+
+        if (selectedItem == R.id.action_refresh) {
+            refresh();
+            return true;
+        }
+
+        if (selectedItem == R.id.action_track) {
+            flow.moveToAttendanceTracking();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

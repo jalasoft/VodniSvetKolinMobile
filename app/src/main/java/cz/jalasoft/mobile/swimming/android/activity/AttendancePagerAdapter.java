@@ -1,0 +1,43 @@
+package cz.jalasoft.mobile.swimming.android.activity;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+
+import cz.jalasoft.mobile.swimming.android.fragment.AttendanceTrackingFragment;
+import cz.jalasoft.mobile.swimming.android.fragment.AttendanceDisplayFragment;
+
+/**
+ * Created by Honza "Honzales" Lastovicka on 1/23/16.
+ */
+public final class AttendancePagerAdapter extends FragmentPagerAdapter {
+
+    private final AttendanceDisplayFragment attendanceFragment;
+    private final AttendanceTrackingFragment attendanceTrackingFragment;
+
+    public AttendancePagerAdapter(FragmentManager fm) {
+        super(fm);
+
+        attendanceFragment = AttendanceDisplayFragment.newInstance();
+        attendanceTrackingFragment = AttendanceTrackingFragment.newInstance();
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        switch (position) {
+            case 0:
+                return attendanceFragment;
+
+            case 1:
+                return attendanceTrackingFragment;
+
+            default:
+                throw new IllegalArgumentException("Unexpected position: " + position);
+        }
+    }
+
+    @Override
+    public int getCount() {
+        return 2;
+    }
+}
