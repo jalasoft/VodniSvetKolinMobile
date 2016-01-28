@@ -10,9 +10,10 @@
     <string name="trackingOff">Vypnuto</string>
     <string name="back_to_display">Zpět</string>
 
-    <string name="title_activity_attendance_watching">AttendanceWatchingActivity</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_application">ApplicationActivity</string>
+    <string name="setting_enable_tracking_title">Sledování návštěvnosti</string>
+    <string name="setting_enable_tracking_summary">Umožňuje kontinuální sledování návštěvnosti Vodního Světa.</string>
+    <string name="setting_set_attendance_boundary_title_pattern">Počet návštěvníků: %d</string>
+    <string name="setting_set_attendance_boundary_text">Nastavení limitního počtu lidí po jehož překročení dojde k upozornění.</string>
+    <string name="setting_set_tracking_time_title_pattern">Čas sledování: %s</string>
+    <string name="setting_set_tracking_time_text">Nastavení časového rozmezí ve kterém bude sledování návštěvnosti probíhat.</string>
 </resources>

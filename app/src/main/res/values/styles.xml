@@ -21,4 +21,24 @@
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
+
+
+    <style name="settingContainer">
+        <item name="android:background">@drawable/settings_background</item>
+        <item name="android:paddingBottom">@dimen/setting_container_padding</item>
+        <item name="android:paddingTop">@dimen/setting_container_padding</item>
+    </style>
+
+    <style name="SettingTitle">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/setting_title_size</item>
+        <item name="android:paddingLeft">@dimen/setting_title_padding_left</item>
+    </style>
+
+    <style name="SettingText" parent="SettingTitle">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/setting_text_size</item>
+    </style>
 </resources>

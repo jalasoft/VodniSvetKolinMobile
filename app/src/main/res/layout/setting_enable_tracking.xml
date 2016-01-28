@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/settings_background"
+    style="@style/settingContainer"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/settingId2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:text="@string/setting_enable_tracking_title"
+            style="@style/SettingTitle"
+            />
+
+        <CheckBox
+            android:id="@+id/enableTrackingCheckboxId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/settingId2"
+            android:paddingRight="20dp"
+            android:layout_gravity="center"
+            android:layout_alignParentRight="true" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/settingId2"
+        android:text="@string/setting_enable_tracking_summary"
+        style="@style/SettingText"
+        />
+</RelativeLayout>

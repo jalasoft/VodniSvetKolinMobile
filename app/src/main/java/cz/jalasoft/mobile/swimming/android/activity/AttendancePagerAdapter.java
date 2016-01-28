@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import cz.jalasoft.mobile.swimming.android.fragment.AnotherSettingsFragment;
 import cz.jalasoft.mobile.swimming.android.fragment.AttendanceTrackingFragment;
 import cz.jalasoft.mobile.swimming.android.fragment.AttendanceDisplayFragment;
 
@@ -14,12 +15,14 @@ public final class AttendancePagerAdapter extends FragmentPagerAdapter {
 
     private final AttendanceDisplayFragment attendanceFragment;
     private final AttendanceTrackingFragment attendanceTrackingFragment;
+    private final AnotherSettingsFragment anotherSettings;
 
     public AttendancePagerAdapter(FragmentManager fm) {
         super(fm);
 
         attendanceFragment = AttendanceDisplayFragment.newInstance();
         attendanceTrackingFragment = AttendanceTrackingFragment.newInstance();
+        anotherSettings = new AnotherSettingsFragment();
     }
 
     @Override
@@ -27,9 +30,8 @@ public final class AttendancePagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 return attendanceFragment;
-
             case 1:
-                return attendanceTrackingFragment;
+                return anotherSettings;
 
             default:
                 throw new IllegalArgumentException("Unexpected position: " + position);

@@ -9,9 +9,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import cz.jalasoft.mobile.swimming.R;
 import cz.jalasoft.mobile.swimming.android.activity.ApplicationFlow;
+import cz.jalasoft.mobile.swimming.android.widget.RangeSeekBar;
 
 public final class AttendanceTrackingFragment extends Fragment {
 
@@ -27,6 +30,9 @@ public final class AttendanceTrackingFragment extends Fragment {
     //-----------------------------------------------------------
     //INSTANCE SCOPE
     //-----------------------------------------------------------
+
+    private TextView trackingTimeTextView;
+    private TextView trackingAttendanceTextView;
 
     private ApplicationFlow flow;
 
@@ -46,6 +52,22 @@ public final class AttendanceTrackingFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initViews();
+
+        insertTimeSeekBar();
+        insertAttendanceSeekBar();
+    }
+
+    private void initViews() {
+        this.trackingAttendanceTextView = (TextView) getView().findViewById(R.id.trackingAttendanceView);
+        this.trackingTimeTextView = (TextView) getView().findViewById(R.id.trackingAttendanceTimeView);
     }
 
     @Override
@@ -73,9 +95,54 @@ public final class AttendanceTrackingFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    private void insertTimeSeekBar() {
+        LinearLayout layout = (LinearLayout) getView().findViewById(R.id.trackingTimeLayout);
+
+        RangeSeekBar<Integer> timeSeekBar = RangeSeekBar.classic(0, 132, getContext());
+        layout.addView(timeSeekBar);
+
+        timeSeekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
+            @Override
+            public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
+                String startTime = time(minValue);
+                String stopTime = time(maxValue);
+
+                updateTrackingTime(startTime + " - " + stopTime);
+            }
+        });
+    }
+
+    private void insertAttendanceSeekBar() {
+        LinearLayout layout = (LinearLayout) getView().findViewById(R.id.trackingAttendanceLayout);
+
+        RangeSeekBar<Integer> timeSeekBar = RangeSeekBar.maxOnly(0, 230, getContext());
+        layout.addView(timeSeekBar);
+
+        timeSeekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
+            @Override
+            public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
+                updateTrackingAttendance(maxValue);
+            }
+        });
+    }
+
+    private String time(int fiveMinutes) {
+        int hoursOffset = fiveMinutes / 12;
+        int minutesOffset = (fiveMinutes % 12) * 5;
+
+        return "" + (10 + hoursOffset) + ":" + minutesOffset;
+    }
+
+    private void updateTrackingTime(String value) {
+        trackingTimeTextView.setText(value);
+    }
+
+    private void updateTrackingAttendance(int value) {
+        trackingAttendanceTextView.setText("" + value);
+    }
+
     /*
-    private TextView trackingTimeTextView;
-    private TextView trackingAttendanceTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,41 +163,9 @@ public final class AttendanceTrackingFragment extends Fragment {
         insertAttendanceSeekBar();
     }
 
-    private void initViews() {
-        this.trackingAttendanceTextView = (TextView) findViewById(R.id.trackingAttendanceView);
-        this.trackingTimeTextView = (TextView) findViewById(R.id.trackingAttendanceTimeView);
-    }
 
-    private void insertTimeSeekBar() {
-        LinearLayout layout = (LinearLayout) findViewById(R.id.trackingTimeLayout);
 
-        RangeSeekBar<Integer> timeSeekBar = RangeSeekBar.classic(0, 132, getApplicationContext());
-        layout.addView(timeSeekBar);
 
-        timeSeekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
-            @Override
-            public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
-                String startTime = time(minValue);
-                String stopTime = time(maxValue);
-
-                updateTrackingTime(startTime + " - " + stopTime);
-            }
-        });
-    }
-
-    private void insertAttendanceSeekBar() {
-        LinearLayout layout = (LinearLayout) findViewById(R.id.trackingAttendanceLayout);
-
-        RangeSeekBar<Integer> timeSeekBar = RangeSeekBar.maxOnly(0, 230, getApplicationContext());
-        layout.addView(timeSeekBar);
-
-        timeSeekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
-            @Override
-            public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
-                updateTrackingAttendance(maxValue);
-            }
-        });
-    }
 
     private Toolbar initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -140,19 +175,6 @@ public final class AttendanceTrackingFragment extends Fragment {
         return toolbar;
     }
 
-    private String time(int fiveMinutes) {
-        int hoursOffset = fiveMinutes / 12;
-        int minutesOffset = (fiveMinutes % 12) * 5;
 
-        return "" + (10 + hoursOffset) + ":" + minutesOffset;
-    }
-
-    private void updateTrackingTime(String value) {
-        trackingTimeTextView.setText(value);
-    }
-
-    private void updateTrackingAttendance(int value) {
-        trackingAttendanceTextView.setText("" + value);
-    }
      */
 }

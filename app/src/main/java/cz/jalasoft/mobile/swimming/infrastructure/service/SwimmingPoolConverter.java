@@ -14,6 +14,7 @@ public final class SwimmingPoolConverter {
     private static final Pattern ATTENDANCE_TOTAL_PATTERN = Pattern.compile("<div class=\"bubble\">\\s*<div class=\"value\">\\s*(\\d+)\\s*</div>\\s*</div>");
     private static final Pattern ATTENDANCE_PERCENTAGE_PATTERN = Pattern.compile("setRunningText\\(.*V aquaparku je právě \\d+ návštěvníků \\((\\d{1,2}\\.\\d{1,2})% kapacity\\)");
     private static final Pattern IS_OPEN_PATTERN = Pattern.compile("<div class=\"semaphoreGreen\"></div>");
+    private static final Pattern IS_CLOSE_TO_CLOSED = Pattern.compile("<div class=\"semaphoreOrange\"></div>");
     private static final Pattern IS_CLOSED_PATTERN = Pattern.compile("<div class=\"semaphoreRed\"></div>");
 
     static SwimmingPool swimmingPool(WebPage page) throws SwimmingPoolContentPageDoesNotMatchException {
@@ -71,6 +72,14 @@ public final class SwimmingPoolConverter {
 
         if (isClosed) {
             return false;
+        }
+
+        Matcher isCloseToClosedMatcher = IS_CLOSE_TO_CLOSED.matcher(page.content());
+
+        boolean isCloseToClosed = isCloseToClosedMatcher.find();
+
+        if (isCloseToClosed) {
+            return true;
         }
 
         throw new SwimmingPoolContentPageDoesNotMatchException("Cannot find occurrence of open/closed pattern: " + IS_OPEN_PATTERN + ", " + IS_CLOSED_PATTERN);
