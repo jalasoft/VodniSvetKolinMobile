@@ -1,11 +1,11 @@
-package cz.jalasoft.mobile.swimming.infrastructure.service;
+package cz.jalasoft.mobile.swimming.infrastructure.pool;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import cz.jalasoft.mobile.swimming.domain.model.SwimmingPool;
-import cz.jalasoft.mobile.swimming.domain.model.SwimmingPoolException;
-import cz.jalasoft.mobile.swimming.domain.model.SwimmingPoolService;
+import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPool;
+import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPoolException;
+import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPoolService;
 
 /**
  * Created by lastovicka on 1/2/16.
@@ -34,7 +34,7 @@ public final class WebPageSwimmingPoolService implements SwimmingPoolService {
     }
 
     @Override
-    public SwimmingPool getSwimmingPool() throws SwimmingPoolException {
+    public SwimmingPool loadSwimmingPool() throws SwimmingPoolException {
         WebPage poolPage = WebPage.loadPage(pageUrl);
         SwimmingPool pool = SwimmingPoolConverter.swimmingPool(poolPage);
         return pool;
@@ -44,7 +44,7 @@ public final class WebPageSwimmingPoolService implements SwimmingPoolService {
     public static void main(String[] args) throws SwimmingPoolException {
         WebPageSwimmingPoolService service = new WebPageSwimmingPoolService("http://vodnisvetkolin.cz/Default.aspx");
 
-        SwimmingPool info = service.getSwimmingPool();
+        SwimmingPool info = service.loadSwimmingPool();
         System.out.println(info);
     }
 }

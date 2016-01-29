@@ -18,6 +18,7 @@ public final class Application extends android.app.Application {
 
     @Override
     public void onCreate() {
+        applicationService.init(this);
         Application.instance = this;
 
         super.onCreate();

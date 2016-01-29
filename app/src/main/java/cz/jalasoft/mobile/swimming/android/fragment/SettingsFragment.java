@@ -12,7 +12,9 @@ import cz.jalasoft.mobile.swimming.R;
 /**
  * Created by Honza "Honzales" Lastovicka on 1/26/16.
  */
-public class AnotherSettingsFragment extends Fragment {
+public final class SettingsFragment extends Fragment {
+
+
 
     @Nullable
     @Override

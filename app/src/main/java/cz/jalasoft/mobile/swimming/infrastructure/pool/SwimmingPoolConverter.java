@@ -1,10 +1,10 @@
-package cz.jalasoft.mobile.swimming.infrastructure.service;
+package cz.jalasoft.mobile.swimming.infrastructure.pool;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cz.jalasoft.mobile.swimming.domain.model.SwimmingPool;
-import cz.jalasoft.mobile.swimming.infrastructure.service.exception.SwimmingPoolContentPageDoesNotMatchException;
+import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPool;
+import cz.jalasoft.mobile.swimming.infrastructure.pool.exception.SwimmingPoolContentPageDoesNotMatchException;
 
 /**
  * Created by Honza "Honzales" Lastovicka on 1/2/16.

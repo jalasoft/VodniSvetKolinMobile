@@ -1,7 +1,11 @@
 package cz.jalasoft.mobile.swimming.application;
 
-import cz.jalasoft.mobile.swimming.domain.model.SwimmingPool;
-import cz.jalasoft.mobile.swimming.domain.model.SwimmingPoolService;
+import android.app.Application;
+import android.content.Context;
+
+import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPool;
+import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPoolService;
+import cz.jalasoft.mobile.swimming.domain.model.expectation.SwimmingPoolExpectation;
 import cz.jalasoft.mobile.swimming.infrastructure.DomainRegistry;
 import cz.jalasoft.mobile.swimming.util.AsyncCallback;
 import cz.jalasoft.mobile.swimming.android.CallbackAsyncTask;
@@ -16,16 +20,31 @@ public final class ApplicationService {
 
     public ApplicationService() {
         this.domainRegistry = new DomainRegistry();
-        this.domainRegistry.init();
     }
 
-    public void getSwimmingPool(AsyncCallback<SwimmingPool> callback) {
+    public void init(Context context) {
+        this.domainRegistry.init(context);
+    }
+
+    public int maxSwimmingPoolAttendanceExpectation() {
+        return registry().swimmingPoolExpectation().maxAttendanceBoundary();
+    }
+
+    public int swimmingPoolAttendanceExpectation() {
+        return registry().swimmingPoolExpectation().attendanceBoundary();
+    }
+
+    public void changeSwimmingPoolAttendanceExpectation(int newExpectation) {
+        registry().swimmingPoolExpectation().changeAttendanceBoundary(newExpectation);
+    }
+
+    public void loadSwimmingPool(AsyncCallback<SwimmingPool> callback) {
         final SwimmingPoolService service = registry().swimmingPoolService();
 
         Provider<SwimmingPool> poolProvider = new Provider() {
             @Override
             public Object get() throws Exception {
-                return service.getSwimmingPool();
+                return service.loadSwimmingPool();
             }
         };
 
@@ -33,7 +52,6 @@ public final class ApplicationService {
     }
 
     private void asynchronously(Provider<SwimmingPool> provider, AsyncCallback<SwimmingPool> callback) {
-        Void[] p = null;
         new CallbackAsyncTask(provider, callback).execute();
     }
 

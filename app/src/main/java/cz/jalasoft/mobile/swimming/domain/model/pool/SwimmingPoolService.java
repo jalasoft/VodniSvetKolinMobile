@@ -1,4 +1,4 @@
-package cz.jalasoft.mobile.swimming.domain.model;
+package cz.jalasoft.mobile.swimming.domain.model.pool;
 
 /**
  * A service that provides a snapshot of a swimming pool status.
@@ -12,5 +12,5 @@ public interface SwimmingPoolService {
      * @return never null
      * @throws SwimmingPoolException if there is a connection issue or data format issue.
      */
-    SwimmingPool getSwimmingPool() throws SwimmingPoolException;
+    SwimmingPool loadSwimmingPool() throws SwimmingPoolException;
 }

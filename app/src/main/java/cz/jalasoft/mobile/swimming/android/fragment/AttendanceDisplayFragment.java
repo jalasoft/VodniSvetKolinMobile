@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import cz.jalasoft.mobile.swimming.R;
 import cz.jalasoft.mobile.swimming.android.activity.ApplicationFlow;
-import cz.jalasoft.mobile.swimming.domain.model.SwimmingPool;
+import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPool;
 import cz.jalasoft.mobile.swimming.util.AsyncCallback;
 
 import static android.view.View.INVISIBLE;
@@ -110,7 +110,7 @@ public final class AttendanceDisplayFragment extends Fragment {
     private void refresh() {
         showProgress();
 
-        applicationService().getSwimmingPool(new AsyncCallback<SwimmingPool>() {
+        applicationService().loadSwimmingPool(new AsyncCallback<SwimmingPool>() {
 
             @Override
             public void process(SwimmingPool pool) {

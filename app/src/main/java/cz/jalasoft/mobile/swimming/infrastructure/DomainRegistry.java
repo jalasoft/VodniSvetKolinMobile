@@ -1,7 +1,11 @@
 package cz.jalasoft.mobile.swimming.infrastructure;
 
-import cz.jalasoft.mobile.swimming.domain.model.SwimmingPoolService;
-import cz.jalasoft.mobile.swimming.infrastructure.service.WebPageSwimmingPoolService;
+import android.content.Context;
+
+import cz.jalasoft.mobile.swimming.domain.model.expectation.SwimmingPoolExpectation;
+import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPoolService;
+import cz.jalasoft.mobile.swimming.infrastructure.pool.WebPageSwimmingPoolService;
+import cz.jalasoft.mobile.swimming.infrastructure.tracking.SharedPreferencesSwimmingPoolExpectation;
 
 /**
  * A registry of domain objects.
@@ -11,9 +15,11 @@ import cz.jalasoft.mobile.swimming.infrastructure.service.WebPageSwimmingPoolSer
 public final class DomainRegistry {
 
     private SwimmingPoolService swimmingPoolService;
+    private SwimmingPoolExpectation swimmingPoolExpectation;
 
-    public void init() {
+    public void init(Context context) {
         this.swimmingPoolService = new WebPageSwimmingPoolService("http://vodnisvetkolin.cz/Default.aspx");
+        this.swimmingPoolExpectation = new SharedPreferencesSwimmingPoolExpectation(context);
     }
 
     /**
@@ -22,5 +28,9 @@ public final class DomainRegistry {
      */
     public SwimmingPoolService swimmingPoolService() {
         return swimmingPoolService;
+    }
+
+    public SwimmingPoolExpectation swimmingPoolExpectation() {
+        return swimmingPoolExpectation;
     }
 }

@@ -12,54 +12,51 @@ import android.widget.TextView;
 import cz.jalasoft.mobile.swimming.R;
 import cz.jalasoft.mobile.swimming.android.widget.RangeSeekBar;
 
+import static cz.jalasoft.mobile.swimming.android.Application.applicationService;
+
 /**
  * Created by Honza "Honzales" Lastovicka on 1/28/16.
  */
 public final class SetAttendanceBoundarySettingFragment extends Fragment {
 
-    private static final int MAX_ATTENDACE = 230;
-
-    private String titlePattern;
-    private TextView title;
+    private TextView numberView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.setting_set_attendance_boundary, container);
 
-        title = title(view);
-        titlePattern = titlePattern();
+        numberView = numberView(view);
 
-        setTitle(MAX_ATTENDACE);
-        layout(view).addView(seekBar());
+        int currentExpectation = applicationService().swimmingPoolAttendanceExpectation();
+        displayNumber(currentExpectation);
+        layout(view).addView(seekBar(currentExpectation));
 
         return view;
     }
 
-    private TextView title(View view) {
-        return (TextView) view.findViewById(R.id.setting_set_attendance_boundary_title);
+    private TextView numberView(View view) {
+        return (TextView) view.findViewById(R.id.setting_set_attendance_boundary_number);
     }
 
-    private String titlePattern() {
-        return getResources().getString(R.string.setting_set_attendance_boundary_title_pattern);
-    }
-
-    private void setTitle(int number) {
-        String newTitle = String.format(titlePattern, number);
-        title.setText(newTitle);
+    private void displayNumber(int number) {
+        numberView.setText("" + number);
     }
 
     private LinearLayout layout(View view) {
         return (LinearLayout) view.findViewById(R.id.setting_set_attendance_boundary_layout);
     }
 
-    private RangeSeekBar<?> seekBar() {
-        RangeSeekBar<Integer> timeSeekBar = RangeSeekBar.maxOnly(0, MAX_ATTENDACE, getContext());
+    private RangeSeekBar<?> seekBar(int initialValue) {
+        final int maxAttendance = applicationService().maxSwimmingPoolAttendanceExpectation();
+        RangeSeekBar<Integer> timeSeekBar = RangeSeekBar.maxOnly(0, maxAttendance, getContext());
+        timeSeekBar.setSelectedMaxValue(initialValue);
 
         timeSeekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
             @Override
             public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
-                setTitle(maxValue);
+                displayNumber(maxValue);
+                applicationService().changeSwimmingPoolAttendanceExpectation(maxValue);
             }
         });
 

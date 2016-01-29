@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import cz.jalasoft.mobile.swimming.android.fragment.AnotherSettingsFragment;
+import cz.jalasoft.mobile.swimming.android.fragment.SettingsFragment;
 import cz.jalasoft.mobile.swimming.android.fragment.AttendanceTrackingFragment;
 import cz.jalasoft.mobile.swimming.android.fragment.AttendanceDisplayFragment;
 
@@ -15,14 +15,14 @@ public final class AttendancePagerAdapter extends FragmentPagerAdapter {
 
     private final AttendanceDisplayFragment attendanceFragment;
     private final AttendanceTrackingFragment attendanceTrackingFragment;
-    private final AnotherSettingsFragment anotherSettings;
+    private final SettingsFragment anotherSettings;
 
     public AttendancePagerAdapter(FragmentManager fm) {
         super(fm);
 
         attendanceFragment = AttendanceDisplayFragment.newInstance();
         attendanceTrackingFragment = AttendanceTrackingFragment.newInstance();
-        anotherSettings = new AnotherSettingsFragment();
+        anotherSettings = new SettingsFragment();
     }
 
     @Override

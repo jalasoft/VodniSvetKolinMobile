@@ -6,12 +6,28 @@
     android:layout_height="match_parent"
     style="@style/settingContainer">
 
-    <TextView
-        android:id="@+id/setting_set_tracking_time_title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="to_be_set_in_fragment"
-        style="@style/SettingTitle"/>
+        android:paddingBottom="@dimen/setting_container_padding"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/setting_set_tracking_time_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/setting_set_tracking_time"
+            android:layout_weight="1"
+            style="@style/SettingTitle"/>
+
+        <TextView
+            android:id="@+id/setting_set_tracking_time_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="20dp"
+            android:text="00 : 00"
+            style="@style/SettingTitle"/>
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"

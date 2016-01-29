@@ -1,6 +1,6 @@
-package cz.jalasoft.mobile.swimming.infrastructure.service.exception;
+package cz.jalasoft.mobile.swimming.infrastructure.pool.exception;
 
-import cz.jalasoft.mobile.swimming.domain.model.SwimmingPoolException;
+import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPoolException;
 
 /**
  * Created by lastovicka on 1/2/16.

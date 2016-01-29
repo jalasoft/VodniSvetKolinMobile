@@ -1,4 +1,4 @@
-package cz.jalasoft.mobile.swimming.domain.model;
+package cz.jalasoft.mobile.swimming.domain.model.pool;
 
 import java.io.IOException;
 import java.net.URL;
