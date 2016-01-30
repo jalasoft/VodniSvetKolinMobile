@@ -1,4 +1,5 @@
-package cz.jalasoft.mobile.swimming.infrastructure.pool;
+package cz.jalasoft.mobile.swimming.infrastructure.pool.status;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,20 +9,20 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPoolException;
-import cz.jalasoft.mobile.swimming.infrastructure.pool.exception.SwimmingPoolNotAvailableException;
+import cz.jalasoft.mobile.swimming.domain.model.pool.status.PoolException;
+import cz.jalasoft.mobile.swimming.infrastructure.pool.status.exception.SwimmingPoolNotAvailableException;
 
 /**
  * Created by lastovicka on 1/2/16.
  */
 final class WebPage {
 
-    static WebPage loadPage(URL url) throws SwimmingPoolException {
+    static WebPage loadPage(URL url) throws PoolException {
         String pageContent = readPageContent(connection(url));
         return new WebPage(pageContent);
     }
 
-    private static HttpURLConnection connection(URL pageUrl) throws SwimmingPoolException {
+    private static HttpURLConnection connection(URL pageUrl) throws PoolException {
         try {
             HttpURLConnection connection = (HttpURLConnection) pageUrl.openConnection();
             return connection;
@@ -30,7 +31,7 @@ final class WebPage {
         }
     }
 
-    private static String readPageContent(HttpURLConnection connection) throws SwimmingPoolException {
+    private static String readPageContent(HttpURLConnection connection) throws PoolException {
         InputStream input = null;
         IOException finalExc = null;
         StringBuilder bldr = new StringBuilder();

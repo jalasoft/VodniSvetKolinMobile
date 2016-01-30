@@ -1,15 +1,16 @@
-package cz.jalasoft.mobile.swimming.infrastructure.pool;
+package cz.jalasoft.mobile.swimming.infrastructure.pool.status;
+
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPool;
-import cz.jalasoft.mobile.swimming.infrastructure.pool.exception.SwimmingPoolContentPageDoesNotMatchException;
+import cz.jalasoft.mobile.swimming.domain.model.pool.status.PoolStatus;
+import cz.jalasoft.mobile.swimming.infrastructure.pool.status.exception.SwimmingPoolContentPageDoesNotMatchException;
 
 /**
  * Created by Honza "Honzales" Lastovicka on 1/2/16.
  */
-public final class SwimmingPoolConverter {
+public final class PoolStatusFactory {
 
     private static final Pattern ATTENDANCE_TOTAL_PATTERN = Pattern.compile("<div class=\"bubble\">\\s*<div class=\"value\">\\s*(\\d+)\\s*</div>\\s*</div>");
     private static final Pattern ATTENDANCE_PERCENTAGE_PATTERN = Pattern.compile("setRunningText\\(.*V aquaparku je právě \\d+ návštěvníků \\((\\d{1,2}\\.\\d{1,2})% kapacity\\)");
@@ -17,17 +18,17 @@ public final class SwimmingPoolConverter {
     private static final Pattern IS_CLOSE_TO_CLOSED = Pattern.compile("<div class=\"semaphoreOrange\"></div>");
     private static final Pattern IS_CLOSED_PATTERN = Pattern.compile("<div class=\"semaphoreRed\"></div>");
 
-    static SwimmingPool swimmingPool(WebPage page) throws SwimmingPoolContentPageDoesNotMatchException {
+    static PoolStatus from(WebPage page) throws SwimmingPoolContentPageDoesNotMatchException {
         boolean isOpen = readOpenClosed(page);
 
         if (!isOpen) {
-            return SwimmingPool.closed();
+            return PoolStatus.closed();
         }
 
         int attendanceTotal = readAttendanceTotal(page);
         float attendancePercentage = readAttendancePercentage(page);
 
-        return SwimmingPool.open(attendanceTotal, attendancePercentage);
+        return PoolStatus.open(attendanceTotal, attendancePercentage);
     }
 
     private static int readAttendanceTotal(WebPage page) throws SwimmingPoolContentPageDoesNotMatchException {

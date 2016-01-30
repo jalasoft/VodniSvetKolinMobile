@@ -1,11 +1,11 @@
-package cz.jalasoft.mobile.swimming.infrastructure.pool.exception;
+package cz.jalasoft.mobile.swimming.infrastructure.pool.status.exception;
 
-import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPoolException;
+import cz.jalasoft.mobile.swimming.domain.model.pool.status.PoolException;
 
 /**
  * Created by lastovicka on 1/2/16.
  */
-public final class SwimmingPoolContentPageDoesNotMatchException extends SwimmingPoolException {
+public final class SwimmingPoolContentPageDoesNotMatchException extends PoolException {
 
     public SwimmingPoolContentPageDoesNotMatchException(String detail) {
         super(detail);

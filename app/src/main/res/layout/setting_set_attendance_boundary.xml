@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingRight="20dp"
-            android:text="23"
+            android:text="to_be_set_by_fragment"
             android:gravity="center_vertical"
             style="@style/SettingTitle"/>
     </LinearLayout>
@@ -35,7 +35,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/setting_set_attendance_boundary_text"
+        android:text="@string/setting_set_attendance_boundary_summary"
         style="@style/SettingText"/>
 
 </LinearLayout>

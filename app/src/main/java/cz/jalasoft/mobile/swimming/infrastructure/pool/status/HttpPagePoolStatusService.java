@@ -1,20 +1,20 @@
-package cz.jalasoft.mobile.swimming.infrastructure.pool;
+package cz.jalasoft.mobile.swimming.infrastructure.pool.status;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPool;
-import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPoolException;
-import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPoolService;
+import cz.jalasoft.mobile.swimming.domain.model.pool.status.PoolException;
+import cz.jalasoft.mobile.swimming.domain.model.pool.status.PoolStatus;
+import cz.jalasoft.mobile.swimming.domain.model.pool.status.PoolStatusService;
 
 /**
  * Created by lastovicka on 1/2/16.
  */
-public final class WebPageSwimmingPoolService implements SwimmingPoolService {
+public final class HttpPagePoolStatusService implements PoolStatusService {
 
     private URL pageUrl;
 
-    public WebPageSwimmingPoolService(String pageUrl) {
+    public HttpPagePoolStatusService(String pageUrl) {
         setUrl(pageUrl);
     }
 
@@ -34,17 +34,17 @@ public final class WebPageSwimmingPoolService implements SwimmingPoolService {
     }
 
     @Override
-    public SwimmingPool loadSwimmingPool() throws SwimmingPoolException {
+    public PoolStatus getStatus() throws PoolException {
         WebPage poolPage = WebPage.loadPage(pageUrl);
-        SwimmingPool pool = SwimmingPoolConverter.swimmingPool(poolPage);
+        PoolStatus pool = PoolStatusFactory.from(poolPage);
         return pool;
     }
 
 
-    public static void main(String[] args) throws SwimmingPoolException {
-        WebPageSwimmingPoolService service = new WebPageSwimmingPoolService("http://vodnisvetkolin.cz/Default.aspx");
+    public static void main(String[] args) throws PoolException {
+        HttpPagePoolStatusService service = new HttpPagePoolStatusService("http://vodnisvetkolin.cz/Default.aspx");
 
-        SwimmingPool info = service.loadSwimmingPool();
+        PoolStatus info = service.getStatus();
         System.out.println(info);
     }
 }

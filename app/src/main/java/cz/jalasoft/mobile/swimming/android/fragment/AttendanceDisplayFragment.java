@@ -17,21 +17,17 @@ import android.widget.Toast;
 
 import cz.jalasoft.mobile.swimming.R;
 import cz.jalasoft.mobile.swimming.android.activity.ApplicationFlow;
-import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPool;
+import cz.jalasoft.mobile.swimming.domain.model.pool.status.PoolStatus;
 import cz.jalasoft.mobile.swimming.util.AsyncCallback;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
-import static cz.jalasoft.mobile.swimming.android.Application.applicationService;
+import static cz.jalasoft.mobile.swimming.android.Application.*;
 
 public final class AttendanceDisplayFragment extends Fragment {
 
     public static AttendanceDisplayFragment newInstance() {
         AttendanceDisplayFragment fragment = new AttendanceDisplayFragment();
-        //Bundle args = new Bundle();
-        //args.putString(ARG_PARAM1, param1);
-        //args.putString(ARG_PARAM2, param2);
-        //fragment.setArguments(args);
         return fragment;
     }
 
@@ -59,14 +55,7 @@ public final class AttendanceDisplayFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-
-        //if (getArguments() != null) {
-            //mParam1 = getArguments().getString(ARG_PARAM1);
-            //mParam2 = getArguments().getString(ARG_PARAM2);
-        //}
     }
-
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -110,10 +99,10 @@ public final class AttendanceDisplayFragment extends Fragment {
     private void refresh() {
         showProgress();
 
-        applicationService().loadSwimmingPool(new AsyncCallback<SwimmingPool>() {
+        serviceRegistry().poolStatusService().status(new AsyncCallback<PoolStatus>() {
 
             @Override
-            public void process(SwimmingPool pool) {
+            public void process(PoolStatus pool) {
                 hideProgress();
 
                 displayAttendanceTotal(pool);
@@ -138,11 +127,11 @@ public final class AttendanceDisplayFragment extends Fragment {
         progressBar.setVisibility(INVISIBLE);
     }
 
-    private void displayAttendanceTotal(SwimmingPool pool) {
+    private void displayAttendanceTotal(PoolStatus pool) {
         attendanceTotalText.setText(formatAttendanceString(pool));
     }
 
-    private String formatAttendanceString(SwimmingPool pool) {
+    private String formatAttendanceString(PoolStatus pool) {
         String attendanceString = String.valueOf(pool.attendanceTotal());
 
         switch (attendanceString.length()) {
@@ -155,11 +144,11 @@ public final class AttendanceDisplayFragment extends Fragment {
         }
     }
 
-    private void displayAttendancePercentage(SwimmingPool pool) {
+    private void displayAttendancePercentage(PoolStatus pool) {
         attendancePercentage.setText(pool.attendancePercentage() + "%");
     }
 
-    private void displayOpenClosed(SwimmingPool pool) {
+    private void displayOpenClosed(PoolStatus pool) {
         if (pool.isOpen()) {
             updateWithOpen();
         } else {

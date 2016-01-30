@@ -10,10 +10,12 @@ import android.widget.CheckBox;
 
 import cz.jalasoft.mobile.swimming.R;
 
+import static cz.jalasoft.mobile.swimming.android.Application.*;
+
 /**
  * Created by Honza "Honzales" Lastovicka on 1/26/16.
  */
-public class EnableTrackingSettingFragment extends Fragment {
+public final class EnableTrackingSettingFragment extends Fragment {
 
     private CheckBox checkBox;
 
@@ -21,6 +23,15 @@ public class EnableTrackingSettingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.setting_enable_tracking, container, false);
+
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isTrackingEnabled = ((CheckBox) v).isChecked();
+                serviceRegistry().poolTrackingService().enableTracking(isTrackingEnabled);
+            }
+        });
+
         return view;
     }
 

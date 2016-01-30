@@ -1,4 +1,4 @@
-package cz.jalasoft.mobile.swimming.domain.model.pool;
+package cz.jalasoft.mobile.swimming.domain.model.pool.status;
 
 /**
  * A value class representing a swimming pool, providing
@@ -7,7 +7,7 @@ package cz.jalasoft.mobile.swimming.domain.model.pool;
  *
  * Created by Honza "Honzales" Lastovicka on 1/2/16.
  */
-public final class SwimmingPool {
+public final class PoolStatus {
 
     /**
      * Creates a new swimming pool based on information about current attendanceTotal.
@@ -17,14 +17,14 @@ public final class SwimmingPool {
      * @return never null
      * @throws IllegalArgumentException if attendanceTotal is negative or zero.
      */
-    public static SwimmingPool open(int attendanceTotal, float attendancePercentage) {
+    public static PoolStatus open(int attendanceTotal, float attendancePercentage) {
         if (attendanceTotal <= 0) {
             throw new IllegalArgumentException("Attendance total must not be negative or zero");
         }
         if (attendancePercentage <= 0 || 100 < attendancePercentage) {
             throw new IllegalArgumentException("Attendance percentage must not be breater than 100% or lower than 0%");
         }
-        return new SwimmingPool(true, attendanceTotal, attendancePercentage);
+        return new PoolStatus(true, attendanceTotal, attendancePercentage);
     }
 
     /**
@@ -32,8 +32,8 @@ public final class SwimmingPool {
      *
      * @return never null
      */
-    public static SwimmingPool closed() {
-        return new SwimmingPool(false, 0, 0);
+    public static PoolStatus closed() {
+        return new PoolStatus(false, 0, 0);
     }
 
     //--------------------------------------------------
@@ -42,10 +42,9 @@ public final class SwimmingPool {
 
     private final int attendanceTotal;
     private final float attendancePercentage;
-
     private final boolean isOpen;
 
-    private SwimmingPool(boolean isOpen, int attendanceTotal, float attendacePercentage) {
+    private PoolStatus(boolean isOpen, int attendanceTotal, float attendacePercentage) {
         this.isOpen = isOpen;
         this.attendanceTotal = attendanceTotal;
         this.attendancePercentage = attendacePercentage;
@@ -76,7 +75,7 @@ public final class SwimmingPool {
 
     @Override
     public String toString() {
-        return "SwimmingPool[status=" + (isOpen() ? "open" : "closed") + "attendanceTotal=" + attendanceTotal() + "]";
+        return "PoolStatus[status=" + (isOpen() ? "open" : "closed") + "attendanceTotal=" + attendanceTotal() + "]";
     }
 
     @Override
@@ -89,7 +88,7 @@ public final class SwimmingPool {
             return false;
         }
 
-        SwimmingPool that = (SwimmingPool) o;
+        PoolStatus that = (PoolStatus) o;
 
         if (this.isOpen() != that.isOpen()) {
             return false;

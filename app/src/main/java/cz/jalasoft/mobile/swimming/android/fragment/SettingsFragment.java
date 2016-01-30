@@ -14,8 +14,6 @@ import cz.jalasoft.mobile.swimming.R;
  */
 public final class SettingsFragment extends Fragment {
 
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

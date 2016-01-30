@@ -1,21 +1,19 @@
 package cz.jalasoft.mobile.swimming.util;
 
-import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPool;
-import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPoolException;
-import cz.jalasoft.mobile.swimming.domain.model.pool.SwimmingPoolService;
-import cz.jalasoft.mobile.swimming.infrastructure.DomainRegistry;
+import cz.jalasoft.mobile.swimming.domain.model.pool.status.PoolStatus;
+import cz.jalasoft.mobile.swimming.domain.model.pool.status.PoolException;
+import cz.jalasoft.mobile.swimming.domain.model.pool.status.PoolStatusService;
+import cz.jalasoft.mobile.swimming.infrastructure.pool.status.HttpPagePoolStatusService;
 
 /**
  * Created by lastovicka on 1/3/16.
  */
 public class SwimmingPoolServiceUtil {
 
-    public static void main(String[] args) throws SwimmingPoolException {
+    public static void main(String[] args) throws PoolException {
 
-        DomainRegistry registry = new DomainRegistry();
-        registry.init();
-        SwimmingPoolService service = registry.swimmingPoolService();
-        SwimmingPool pool = service.loadSwimmingPool();
+        PoolStatusService service = new HttpPagePoolStatusService("http://vodnisvetkolin.cz/Default.aspx");
+        PoolStatus pool = service.getStatus();
 
         System.out.println("Attendance: " + pool.attendanceTotal());
     }
