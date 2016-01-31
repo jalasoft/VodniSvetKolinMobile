@@ -1,4 +1,4 @@
-package cz.jalasoft.mobile.swimming.android;
+package cz.jalasoft.mobile.swimming.util;
 
 import android.os.AsyncTask;
 

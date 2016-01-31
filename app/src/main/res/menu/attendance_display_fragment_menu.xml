@@ -5,14 +5,14 @@
     <item
         android:id="@+id/action_refresh"
         android:icon="@drawable/ic_autorenew_white_24dp"
-        android:title="@string/attendance"
+        android:title="@string/display_attendance_fragment_title"
         android:orderInCategory="100"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_track"
         android:icon="@drawable/ic_track_changes_white_24dp"
-        android:title="@string/tracking"
+        android:title="@string/settings_fragment_title"
         app:showAsAction="always"/>
 
 </menu>

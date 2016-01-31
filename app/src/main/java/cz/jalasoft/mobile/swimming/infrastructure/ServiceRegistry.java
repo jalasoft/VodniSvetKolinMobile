@@ -4,8 +4,8 @@ import android.content.Context;
 
 import cz.jalasoft.mobile.swimming.application.PoolStatusApplicationService;
 import cz.jalasoft.mobile.swimming.application.PoolTrackingApplicationService;
-import cz.jalasoft.mobile.swimming.domain.model.pool.status.PoolStatusService;
 import cz.jalasoft.mobile.swimming.infrastructure.pool.status.HttpPagePoolStatusService;
+import cz.jalasoft.mobile.swimming.infrastructure.pool.track.CachingPoolTrackingConfigurationRepository;
 import cz.jalasoft.mobile.swimming.infrastructure.pool.track.SharedPreferencesPoolTrackingConfigurationRepository;
 
 /**
@@ -20,7 +20,10 @@ public final class ServiceRegistry {
 
     public void init(Context context) {
         this.poolStatusService = new PoolStatusApplicationService(new HttpPagePoolStatusService("http://vodnisvetkolin.cz/Default.aspx"));
-        this.poolTrackingService = new PoolTrackingApplicationService(new SharedPreferencesPoolTrackingConfigurationRepository(context));
+        this.poolTrackingService = new PoolTrackingApplicationService(
+                new CachingPoolTrackingConfigurationRepository(
+                        new SharedPreferencesPoolTrackingConfigurationRepository(context))
+        );
     }
 
     /**

@@ -24,28 +24,36 @@ public final class EnableTrackingSettingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.setting_enable_tracking, container, false);
 
+        checkBox = findCheckBox(view);
+
+        final boolean isEnabled = serviceRegistry().poolTrackingService().configuration().isEnabled();
+        checkBox.setChecked(isEnabled);
+
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isTrackingEnabled = ((CheckBox) v).isChecked();
-                serviceRegistry().poolTrackingService().enableTracking(isTrackingEnabled);
+                saveEnabled(isTrackingEnabled);
+            }
+        });
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isChecked = !checkBox.isChecked();
+                checkBox.setChecked(isChecked);
+                saveEnabled(isChecked);
             }
         });
 
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    private CheckBox findCheckBox(View view) {
+        return (CheckBox) view.findViewById(R.id.enableTrackingCheckboxId);
+    }
 
-        getView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isChecked = checkBox.isChecked();
-                checkBox.setChecked(!isChecked);
-            }
-        });
-        checkBox = (CheckBox) getView().findViewById(R.id.enableTrackingCheckboxId);
+    private void saveEnabled(boolean enabled) {
+        serviceRegistry().poolTrackingService().enableTracking(enabled);
     }
 }

@@ -23,6 +23,10 @@ public final class PoolTrackingConfiguration {
         return isEnabled;
     }
 
+    public PoolTrackingConfiguration enable(boolean isEnabled) {
+        return new PoolTrackingConfiguration(isEnabled, totalAttendanceBoundary, currentAttendanceBoundary, totalTimeRange, currentTimeRange);
+    }
+
     public int totalAttendanceBoundary() {
         return totalAttendanceBoundary;
     }
@@ -31,11 +35,19 @@ public final class PoolTrackingConfiguration {
         return currentAttendanceBoundary;
     }
 
+    public PoolTrackingConfiguration withCurrentAttendanceBoundary(int boundary) {
+        return new PoolTrackingConfiguration(isEnabled, totalAttendanceBoundary, boundary, totalTimeRange, currentTimeRange);
+    }
+
     public TimeRange totalTimeRange() {
         return totalTimeRange;
     }
 
     public TimeRange currentTimeRange() {
         return currentTimeRange;
+    }
+
+    public PoolTrackingConfiguration withCurrentTimeRange(TimeRange timeRange) {
+        return new PoolTrackingConfiguration(isEnabled, totalAttendanceBoundary, currentAttendanceBoundary, totalTimeRange, timeRange);
     }
 }
