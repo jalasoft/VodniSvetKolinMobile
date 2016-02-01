@@ -4,9 +4,10 @@ import android.content.Context;
 
 import cz.jalasoft.mobile.swimming.application.PoolStatusApplicationService;
 import cz.jalasoft.mobile.swimming.application.PoolTrackingApplicationService;
-import cz.jalasoft.mobile.swimming.infrastructure.pool.status.HttpPagePoolStatusService;
-import cz.jalasoft.mobile.swimming.infrastructure.pool.track.CachingPoolTrackingConfigurationRepository;
-import cz.jalasoft.mobile.swimming.infrastructure.pool.track.SharedPreferencesPoolTrackingConfigurationRepository;
+import cz.jalasoft.mobile.swimming.infrastructure.services.poolstatus.HttpPagePoolStatusService;
+import cz.jalasoft.mobile.swimming.infrastructure.persistence.CachingPoolTrackingConfigurationRepository;
+import cz.jalasoft.mobile.swimming.infrastructure.persistence.SharedPreferencesPoolTrackingConfigurationRepository;
+import cz.jalasoft.mobile.swimming.infrastructure.services.pooltracking.DefaultPoolTrackingService;
 
 /**
  * A registry of domain objects.
@@ -23,7 +24,7 @@ public final class ServiceRegistry {
         this.poolTrackingService = new PoolTrackingApplicationService(
                 new CachingPoolTrackingConfigurationRepository(
                         new SharedPreferencesPoolTrackingConfigurationRepository(context))
-        );
+        , new DefaultPoolTrackingService(context));
     }
 
     /**

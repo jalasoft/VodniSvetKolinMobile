@@ -7,7 +7,7 @@
     android:id="@+id/mainRelativeLayout"
     android:background="@color/transparent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    tools:context=".android.fragment.AttendanceDisplayFragment">
+    tools:context=".android.activity.fragment.AttendanceDisplayFragment">
 
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"

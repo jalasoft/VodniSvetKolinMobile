@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import cz.jalasoft.mobile.swimming.android.fragment.SettingsFragment;
-import cz.jalasoft.mobile.swimming.android.fragment.AttendanceDisplayFragment;
+import cz.jalasoft.mobile.swimming.android.activity.fragment.SettingsFragment;
+import cz.jalasoft.mobile.swimming.android.activity.fragment.AttendanceDisplayFragment;
 
 /**
  * Created by Honza "Honzales" Lastovicka on 1/23/16.

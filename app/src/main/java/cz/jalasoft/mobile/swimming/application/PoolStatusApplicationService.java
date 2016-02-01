@@ -1,8 +1,8 @@
 package cz.jalasoft.mobile.swimming.application;
 
 import cz.jalasoft.mobile.swimming.util.CallbackAsyncTask;
-import cz.jalasoft.mobile.swimming.domain.model.pool.status.PoolStatus;
-import cz.jalasoft.mobile.swimming.domain.model.pool.status.PoolStatusService;
+import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatus;
+import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatusService;
 import cz.jalasoft.mobile.swimming.util.AsyncCallback;
 import cz.jalasoft.mobile.swimming.util.Provider;
 

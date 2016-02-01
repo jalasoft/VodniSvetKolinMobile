@@ -1,9 +1,9 @@
 package cz.jalasoft.mobile.swimming.util;
 
-import cz.jalasoft.mobile.swimming.domain.model.pool.status.PoolStatus;
-import cz.jalasoft.mobile.swimming.domain.model.pool.status.PoolException;
-import cz.jalasoft.mobile.swimming.domain.model.pool.status.PoolStatusService;
-import cz.jalasoft.mobile.swimming.infrastructure.pool.status.HttpPagePoolStatusService;
+import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatus;
+import cz.jalasoft.mobile.swimming.domain.model.status.PoolException;
+import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatusService;
+import cz.jalasoft.mobile.swimming.infrastructure.services.poolstatus.HttpPagePoolStatusService;
 
 /**
  * Created by lastovicka on 1/3/16.
