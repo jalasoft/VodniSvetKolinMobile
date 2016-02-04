@@ -46,6 +46,13 @@ public final class TimeRange {
         return endTime;
     }
 
+    public boolean isTimeInRange(TimeOfDay time) {
+        boolean isAfterStartTime = startTime().isBeforeOrEqual(time);
+        boolean isBeforeEndTime = endTime().isAfterOrEqual(time);
+
+        return isAfterStartTime && isBeforeEndTime;
+    }
+
     public int asMinutes() {
         int hours = endTime().hour() - startTime().hour();
         int minutes = endTime().minute() - startTime().minute();

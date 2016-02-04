@@ -16,7 +16,7 @@ import cz.jalasoft.mobile.swimming.domain.model.track.PoolTrackingConfiguration;
 import cz.jalasoft.mobile.swimming.domain.model.track.TimeOfDay;
 import cz.jalasoft.mobile.swimming.domain.model.track.TimeRange;
 
-import static cz.jalasoft.mobile.swimming.android.Application.serviceRegistry;
+import static cz.jalasoft.mobile.swimming.android.Application.applicationService;
 
 /**
  * Created by Honza "Honzales" Lastovicka on 1/28/16.
@@ -32,7 +32,7 @@ public final class SetTrackingTimeSettingFragment extends Fragment {
 
         timeRangeView = timeRangeView(view);
 
-        PoolTrackingConfiguration configuration = serviceRegistry().poolTrackingService().configuration();
+        PoolTrackingConfiguration configuration = applicationService().trackingConfiguration();
 
         TimeRange currentTimeRange = configuration.currentTimeRange();
         TimeRange totalTimeRange = configuration.totalTimeRange();
@@ -54,7 +54,7 @@ public final class SetTrackingTimeSettingFragment extends Fragment {
     }
 
     private void updateCurrentTimeRange(TimeRange newTimeRange) {
-        serviceRegistry().poolTrackingService().saveTimeRange(newTimeRange);
+        applicationService().saveTrackingTimeRange(newTimeRange);
     }
 
     private LinearLayout layout(View view) {

@@ -2,7 +2,7 @@ package cz.jalasoft.mobile.swimming.domain.model.status;
 
 /**
  * A value class representing a swimming pool, providing
- * basic information, as a snapshot of the status of the
+ * basic information, as a snapshot of the poolStatus of the
  * real swimming pool in time.
  *
  * Created by Honza "Honzales" Lastovicka on 1/2/16.
@@ -75,7 +75,7 @@ public final class PoolStatus {
 
     @Override
     public String toString() {
-        return "PoolStatus[status=" + (isOpen() ? "open" : "closed") + "attendanceTotal=" + attendanceTotal() + "]";
+        return "PoolStatus[poolStatus=" + (isOpen() ? "open" : "closed") + "attendanceTotal=" + attendanceTotal() + "]";
     }
 
     @Override

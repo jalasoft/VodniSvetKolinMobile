@@ -98,7 +98,7 @@ public final class AttendanceDisplayFragment extends Fragment {
     private void refresh() {
         showProgress();
 
-        serviceRegistry().poolStatusService().status(new AsyncCallback<PoolStatus>() {
+        applicationService().poolStatus(new AsyncCallback<PoolStatus>() {
 
             @Override
             public void process(PoolStatus pool) {

@@ -6,6 +6,9 @@ import java.net.URL;
 import cz.jalasoft.mobile.swimming.domain.model.status.PoolException;
 import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatus;
 import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatusService;
+import cz.jalasoft.mobile.swimming.util.AsyncCallback;
+import cz.jalasoft.mobile.swimming.util.CallbackAsyncTask;
+import cz.jalasoft.mobile.swimming.util.Provider;
 
 /**
  * Created by lastovicka on 1/2/16.
@@ -40,6 +43,17 @@ public final class HttpPagePoolStatusService implements PoolStatusService {
         return pool;
     }
 
+    @Override
+    public void getStatusAsynchronously(AsyncCallback<PoolStatus> callback) {
+        Provider<PoolStatus> provider = new Provider() {
+            @Override
+            public Object get() throws Exception {
+                return getStatus();
+            }
+        };
+
+        new CallbackAsyncTask(provider, callback).execute();
+    }
 
     public static void main(String[] args) throws PoolException {
         HttpPagePoolStatusService service = new HttpPagePoolStatusService("http://vodnisvetkolin.cz/Default.aspx");

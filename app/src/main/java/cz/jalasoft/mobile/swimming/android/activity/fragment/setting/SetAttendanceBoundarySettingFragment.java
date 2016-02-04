@@ -13,7 +13,7 @@ import cz.jalasoft.mobile.swimming.R;
 import cz.jalasoft.mobile.swimming.android.activity.widget.RangeSeekBar;
 import cz.jalasoft.mobile.swimming.domain.model.track.PoolTrackingConfiguration;
 
-import static cz.jalasoft.mobile.swimming.android.Application.*;
+import static cz.jalasoft.mobile.swimming.android.Application.applicationService;
 
 /**
  * Created by Honza "Honzales" Lastovicka on 1/28/16.
@@ -29,7 +29,7 @@ public final class SetAttendanceBoundarySettingFragment extends Fragment {
 
         numberView = numberView(view);
 
-        PoolTrackingConfiguration configuration = serviceRegistry().poolTrackingService().configuration();
+        PoolTrackingConfiguration configuration = applicationService().trackingConfiguration();
         int currentAttendanceBoundary = configuration.currentAttendanceBoundary();
         int totalAttendanceBoundary = configuration.totalAttendanceBoundary();
 
@@ -50,7 +50,7 @@ public final class SetAttendanceBoundarySettingFragment extends Fragment {
     }
 
     private void saveAttendance(int attendance) {
-        serviceRegistry().poolTrackingService().saveAttendance(attendance);
+        applicationService().saveTrackingAttendance(attendance);
     }
 
     private LinearLayout layout(View view) {

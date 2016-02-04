@@ -1,5 +1,6 @@
 package cz.jalasoft.mobile.swimming.android;
 
+import cz.jalasoft.mobile.swimming.application.PoolApplicationService;
 import cz.jalasoft.mobile.swimming.infrastructure.ServiceRegistry;
 
 /**
@@ -23,7 +24,7 @@ public final class Application extends android.app.Application {
         super.onCreate();
     }
 
-    public static ServiceRegistry serviceRegistry() {
-        return Application.instance.serviceRegistry;
+    public static PoolApplicationService applicationService() {
+        return Application.instance.serviceRegistry.applicationService();
     }
 }

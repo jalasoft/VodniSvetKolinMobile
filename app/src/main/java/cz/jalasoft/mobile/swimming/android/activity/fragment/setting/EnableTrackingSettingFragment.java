@@ -26,7 +26,7 @@ public final class EnableTrackingSettingFragment extends Fragment {
 
         checkBox = findCheckBox(view);
 
-        final boolean isEnabled = serviceRegistry().poolTrackingService().configuration().isEnabled();
+        final boolean isEnabled = applicationService().trackingConfiguration().isEnabled();
         checkBox.setChecked(isEnabled);
 
         checkBox.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +54,6 @@ public final class EnableTrackingSettingFragment extends Fragment {
     }
 
     private void saveEnabled(boolean enabled) {
-        serviceRegistry().poolTrackingService().enableTracking(enabled);
+        applicationService().enableTracking(enabled);
     }
 }

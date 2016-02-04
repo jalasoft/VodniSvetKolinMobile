@@ -2,12 +2,13 @@ package cz.jalasoft.mobile.swimming.infrastructure;
 
 import android.content.Context;
 
-import cz.jalasoft.mobile.swimming.application.PoolStatusApplicationService;
-import cz.jalasoft.mobile.swimming.application.PoolTrackingApplicationService;
-import cz.jalasoft.mobile.swimming.infrastructure.services.poolstatus.HttpPagePoolStatusService;
+import cz.jalasoft.mobile.swimming.application.PoolApplicationService;
+import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatusService;
+import cz.jalasoft.mobile.swimming.domain.model.track.PoolTrackingConfigurationRepository;
+import cz.jalasoft.mobile.swimming.domain.model.track.PoolTrackingService;
 import cz.jalasoft.mobile.swimming.infrastructure.persistence.CachingPoolTrackingConfigurationRepository;
 import cz.jalasoft.mobile.swimming.infrastructure.persistence.SharedPreferencesPoolTrackingConfigurationRepository;
-import cz.jalasoft.mobile.swimming.infrastructure.services.pooltracking.DefaultPoolTrackingService;
+import cz.jalasoft.mobile.swimming.infrastructure.services.poolstatus.HttpPagePoolStatusService;
 
 /**
  * A registry of domain objects.
@@ -16,26 +17,30 @@ import cz.jalasoft.mobile.swimming.infrastructure.services.pooltracking.DefaultP
  */
 public final class ServiceRegistry {
 
-    private PoolStatusApplicationService poolStatusService;
-    private PoolTrackingApplicationService poolTrackingService;
+    private PoolApplicationService poolTrackingService;
 
     public void init(Context context) {
-        this.poolStatusService = new PoolStatusApplicationService(new HttpPagePoolStatusService("http://vodnisvetkolin.cz/Default.aspx"));
-        this.poolTrackingService = new PoolTrackingApplicationService(
-                new CachingPoolTrackingConfigurationRepository(
-                        new SharedPreferencesPoolTrackingConfigurationRepository(context))
-        , new DefaultPoolTrackingService(context));
+
+        PoolStatusService statusService = new HttpPagePoolStatusService("http://vodnisvetkolin.cz/Default.aspx");
+
+        this.poolTrackingService = new PoolApplicationService(
+                new HttpPagePoolStatusService("http://vodnisvetkolin.cz/Default.aspx"),
+                configurationRepository(context),
+                applicationService(statusService),
+                new AlarmManagerScheduler(context)
+        );
     }
 
-    /**
-     * Gets a domain service whose responsibility is to provide a snapshot of a swimming pool status.
-     * @return never null
-     */
-    public PoolStatusApplicationService poolStatusService() {
-        return poolStatusService;
+    private PoolTrackingService applicationService(PoolStatusService statusService) {
+        return new PoolTrackingService(statusService);
     }
 
-    public PoolTrackingApplicationService poolTrackingService() {
+    private PoolTrackingConfigurationRepository configurationRepository(Context context) {
+        return new CachingPoolTrackingConfigurationRepository(
+                new SharedPreferencesPoolTrackingConfigurationRepository(context));
+    }
+
+    public PoolApplicationService applicationService() {
         return poolTrackingService;
     }
 }

@@ -1,6 +1,8 @@
 package cz.jalasoft.mobile.swimming.domain.model.track;
 
 import java.text.NumberFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,6 +50,19 @@ public final class TimeOfDay implements Comparable<TimeOfDay> {
         return new TimeOfDay(hour, minute);
     }
 
+    public static TimeOfDay from(Date date) {
+        if (date == null) {
+            throw new IllegalArgumentException("Date must not be null.");
+        }
+
+        Calendar calendar = Calendar.getInstance();
+
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        return from(hour, minute);
+    }
+
     //---------------------------------------------------------------
     //INSTANCE SCOPE
     //---------------------------------------------------------------
@@ -78,6 +93,18 @@ public final class TimeOfDay implements Comparable<TimeOfDay> {
         int newMinute = minute() + additionalMinutes;
 
         return TimeOfDay.from(newHour, newMinute);
+    }
+
+    public boolean isAfterOrEqual(TimeOfDay that) {
+        int equality = this.compareTo(that);
+
+        return equality >= 0;
+    }
+
+    public boolean isBeforeOrEqual(TimeOfDay that) {
+        int equality = this.compareTo(that);
+
+        return equality <= 0;
     }
 
     @Override
