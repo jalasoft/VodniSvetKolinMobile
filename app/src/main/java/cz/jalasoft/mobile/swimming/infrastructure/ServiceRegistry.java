@@ -4,10 +4,10 @@ import android.content.Context;
 
 import cz.jalasoft.mobile.swimming.application.PoolApplicationService;
 import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatusService;
-import cz.jalasoft.mobile.swimming.domain.model.track.PoolTrackingConfigurationRepository;
-import cz.jalasoft.mobile.swimming.domain.model.track.PoolTrackingService;
-import cz.jalasoft.mobile.swimming.infrastructure.persistence.CachingPoolTrackingConfigurationRepository;
-import cz.jalasoft.mobile.swimming.infrastructure.persistence.SharedPreferencesPoolTrackingConfigurationRepository;
+import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTrackingRepository;
+import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTrackingService;
+import cz.jalasoft.mobile.swimming.infrastructure.persistence.CachingPoolTrackingRepository;
+import cz.jalasoft.mobile.swimming.infrastructure.persistence.SharedPreferencesPoolTrackingRepository;
 import cz.jalasoft.mobile.swimming.infrastructure.services.poolstatus.HttpPagePoolStatusService;
 
 /**
@@ -35,9 +35,9 @@ public final class ServiceRegistry {
         return new PoolTrackingService(statusService);
     }
 
-    private PoolTrackingConfigurationRepository configurationRepository(Context context) {
-        return new CachingPoolTrackingConfigurationRepository(
-                new SharedPreferencesPoolTrackingConfigurationRepository(context));
+    private PoolTrackingRepository configurationRepository(Context context) {
+        return new CachingPoolTrackingRepository(
+                new SharedPreferencesPoolTrackingRepository(context));
     }
 
     public PoolApplicationService applicationService() {

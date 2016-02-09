@@ -1,4 +1,4 @@
-package cz.jalasoft.mobile.swimming.domain.model.track;
+package cz.jalasoft.mobile.swimming.domain.model.tracking;
 
 import java.util.Date;
 
@@ -12,14 +12,24 @@ import cz.jalasoft.mobile.swimming.util.AsyncCallback;
 public final class PoolTrackingService {
 
     private final PoolStatusService statusService;
+    private final PoolTrackingRepository configRepository;
 
-    public PoolTrackingService(PoolStatusService statusService) {
+    public PoolTrackingService(PoolStatusService statusService, PoolTrackingRepository configRepository) {
         this.statusService = statusService;
+        this.configRepository = configRepository;
     }
 
-    public void performTrackingStep(final PoolTrackingConfiguration configuration) {
+    public void performTrackingStep() {
+        final PoolTracking tracking = configRepository.get();
+
+        boolean isTrackingEnabled = tracking.isEnabled();
+        if (!isTrackingEnabled) {
+            //this should never happen
+            return;
+        }
+
         TimeOfDay time = TimeOfDay.from(new Date());
-        boolean isTimeToTrack = configuration.currentTimeRange().isTimeInRange(time);
+        boolean isTimeToTrack = tracking.currentTimeRange().isTimeInRange(time);
 
         if (!isTimeToTrack) {
             return;
@@ -28,7 +38,7 @@ public final class PoolTrackingService {
         statusService.getStatusAsynchronously(new AsyncCallback<PoolStatus>() {
             @Override
             public void process(PoolStatus poolStatus) {
-                finishTracking(poolStatus, configuration);
+                finishTracking(poolStatus, tracking);
             }
 
             @Override
@@ -38,7 +48,7 @@ public final class PoolTrackingService {
         });
     }
 
-    private void finishTracking(PoolStatus poolStatus, PoolTrackingConfiguration configuration) {
+    private void finishTracking(PoolStatus poolStatus, PoolTracking configuration) {
         if (!poolStatus.isOpen()) {
             //this should never happen
         }
@@ -46,6 +56,5 @@ public final class PoolTrackingService {
         int attendanceBoundary = configuration.currentAttendanceBoundary();
         int currentAttendance = poolStatus.attendanceTotal();
 
-        //TODO
     }
 }

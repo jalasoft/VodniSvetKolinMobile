@@ -11,7 +11,7 @@ import cz.jalasoft.mobile.swimming.R;
 import cz.jalasoft.mobile.swimming.android.activity.fragment.setting.EnableTrackingSettingFragment;
 import cz.jalasoft.mobile.swimming.android.activity.fragment.setting.AttendanceBoundarySettingFragment;
 import cz.jalasoft.mobile.swimming.android.activity.fragment.setting.TrackingTimeSettingFragment;
-import cz.jalasoft.mobile.swimming.domain.model.track.TimeRange;
+import cz.jalasoft.mobile.swimming.domain.model.tracking.TimeRange;
 
 import static cz.jalasoft.mobile.swimming.android.Application.*;
 

@@ -4,15 +4,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import cz.jalasoft.mobile.swimming.R;
-import cz.jalasoft.mobile.swimming.domain.model.track.PoolTrackingConfiguration;
-import cz.jalasoft.mobile.swimming.domain.model.track.PoolTrackingConfigurationRepository;
-import cz.jalasoft.mobile.swimming.domain.model.track.TimeOfDay;
-import cz.jalasoft.mobile.swimming.domain.model.track.TimeRange;
+import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTracking;
+import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTrackingRepository;
+import cz.jalasoft.mobile.swimming.domain.model.tracking.TimeOfDay;
+import cz.jalasoft.mobile.swimming.domain.model.tracking.TimeRange;
 
 /**
  * Created by Honza "Honzales" Lastovicka on 1/30/16.
  */
-public final class SharedPreferencesPoolTrackingConfigurationRepository implements PoolTrackingConfigurationRepository {
+public final class SharedPreferencesPoolTrackingRepository implements PoolTrackingRepository {
 
     private static final boolean DEFAULT_TRACKING_ENABLED = false;
     private static final String TRACKING_ENABLED_KEY = "trackingEnabled";
@@ -31,18 +31,18 @@ public final class SharedPreferencesPoolTrackingConfigurationRepository implemen
     private static final TimeRange TOTAL_TIME_RANGE = TimeRange.from(MIN_START_TRACKING_TIME_OF_DAY, MAX_END_TRACKING_TIME_OF_DAY);
     private final SharedPreferences preferences;
 
-    public SharedPreferencesPoolTrackingConfigurationRepository(Context context) {
+    public SharedPreferencesPoolTrackingRepository(Context context) {
         String preferenceName = context.getString(R.string.setting_preference_name);
         preferences = context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE);
     }
 
     @Override
-    public PoolTrackingConfiguration get() {
+    public PoolTracking get() {
         boolean isTrackingEnabled = readTrackingEnabled();
         int currentAttendance = readAttendanceBoundary();
         TimeRange currentTimeRange = readTimeRange();
 
-        return new PoolTrackingConfiguration(isTrackingEnabled, TOTAL_ATTENDANCE_BOUNDARY, currentAttendance, TOTAL_TIME_RANGE, currentTimeRange);
+        return new PoolTracking(isTrackingEnabled, TOTAL_ATTENDANCE_BOUNDARY, currentAttendance, TOTAL_TIME_RANGE, currentTimeRange);
     }
 
     private int readAttendanceBoundary() {

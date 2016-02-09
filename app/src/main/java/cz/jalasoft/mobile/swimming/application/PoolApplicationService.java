@@ -2,10 +2,10 @@ package cz.jalasoft.mobile.swimming.application;
 
 import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatus;
 import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatusService;
-import cz.jalasoft.mobile.swimming.domain.model.track.PoolTrackingConfiguration;
-import cz.jalasoft.mobile.swimming.domain.model.track.PoolTrackingConfigurationRepository;
-import cz.jalasoft.mobile.swimming.domain.model.track.PoolTrackingService;
-import cz.jalasoft.mobile.swimming.domain.model.track.TimeRange;
+import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTracking;
+import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTrackingRepository;
+import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTrackingService;
+import cz.jalasoft.mobile.swimming.domain.model.tracking.TimeRange;
 import cz.jalasoft.mobile.swimming.infrastructure.AlarmManagerScheduler;
 import cz.jalasoft.mobile.swimming.util.AsyncCallback;
 
@@ -14,16 +14,16 @@ import cz.jalasoft.mobile.swimming.util.AsyncCallback;
  */
 public final class PoolApplicationService {
 
-    private final PoolTrackingConfigurationRepository repository;
+    private final PoolTrackingRepository repository;
     private final PoolTrackingService trackingService;
     private final PoolStatusService statusService;
 
     private AlarmManagerScheduler scheduler;
 
-    public PoolApplicationService(PoolStatusService statusService, PoolTrackingConfigurationRepository repository, PoolTrackingService trackingService, AlarmManagerScheduler scheduler) {
+    public PoolApplicationService(PoolStatusService statusService, PoolTrackingRepository repository, AlarmManagerScheduler scheduler) {
         this.statusService = statusService;
         this.repository = repository;
-        this.trackingService = trackingService;
+        this.trackingService = new PoolTrackingService(statusService, repository);
 
         this.scheduler = scheduler;
     }
@@ -32,7 +32,7 @@ public final class PoolApplicationService {
         this.statusService.getStatusAsynchronously(callback);
     }
 
-    public PoolTrackingConfiguration trackingConfiguration() {
+    public PoolTracking trackingConfiguration() {
         return repository.get();
     }
 
@@ -55,13 +55,6 @@ public final class PoolApplicationService {
     }
 
     public void performTrackingStep() {
-        boolean isTrackingEnabled = repository.get().isEnabled();
-        if (!isTrackingEnabled) {
-            //this should never happen
-            return;
-        }
-
-        PoolTrackingConfiguration configuration = repository.get();
-        trackingService.performTrackingStep(configuration);
+        trackingService.performTrackingStep();
     }
 }

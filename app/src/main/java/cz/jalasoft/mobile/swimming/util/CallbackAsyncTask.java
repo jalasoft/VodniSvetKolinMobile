@@ -2,10 +2,6 @@ package cz.jalasoft.mobile.swimming.util;
 
 import android.os.AsyncTask;
 
-import cz.jalasoft.mobile.swimming.util.AsyncCallback;
-import cz.jalasoft.mobile.swimming.util.Provider;
-import cz.jalasoft.mobile.swimming.util.ValueOrException;
-
 /**
  * Created by Honza "Honzales" Lastovicka on 1/2/16.
  */

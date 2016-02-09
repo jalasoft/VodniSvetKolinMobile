@@ -1,11 +1,11 @@
-package cz.jalasoft.mobile.swimming.domain.model.track;
+package cz.jalasoft.mobile.swimming.domain.model.tracking;
 
 /**
  * Created by Honza "Honzales" Lastovicka on 1/30/16.
  */
-public interface PoolTrackingConfigurationRepository {
+public interface PoolTrackingRepository {
 
-    PoolTrackingConfiguration get();
+    PoolTracking get();
 
     void enableTracking(boolean enabled);
 

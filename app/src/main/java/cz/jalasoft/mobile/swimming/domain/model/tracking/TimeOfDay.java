@@ -1,4 +1,4 @@
-package cz.jalasoft.mobile.swimming.domain.model.track;
+package cz.jalasoft.mobile.swimming.domain.model.tracking;
 
 import java.text.NumberFormat;
 import java.util.Calendar;

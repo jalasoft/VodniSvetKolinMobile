@@ -1,4 +1,4 @@
-package cz.jalasoft.mobile.swimming.domain.model.track;
+package cz.jalasoft.mobile.swimming.domain.model.tracking;
 
 /**
  * A value representing a range of time in a day. For example 06:45 - 21:34.

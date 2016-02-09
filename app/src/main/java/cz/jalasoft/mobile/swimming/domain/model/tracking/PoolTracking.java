@@ -1,9 +1,9 @@
-package cz.jalasoft.mobile.swimming.domain.model.track;
+package cz.jalasoft.mobile.swimming.domain.model.tracking;
 
 /**
  * Created by Honza "Honzales" Lastovicka on 1/30/16.
  */
-public final class PoolTrackingConfiguration {
+public final class PoolTracking {
 
     private final boolean isEnabled;
     private final int totalAttendanceBoundary;
@@ -11,7 +11,7 @@ public final class PoolTrackingConfiguration {
     private final TimeRange totalTimeRange;
     private final TimeRange currentTimeRange;
 
-    public PoolTrackingConfiguration(boolean isEnabled, int totalAttendanceBoundary, int currentAttendanceBoundary, TimeRange totalTimeRange, TimeRange currentTimeRange) {
+    public PoolTracking(boolean isEnabled, int totalAttendanceBoundary, int currentAttendanceBoundary, TimeRange totalTimeRange, TimeRange currentTimeRange) {
         this.isEnabled = isEnabled;
         this.totalAttendanceBoundary = totalAttendanceBoundary;
         this.currentAttendanceBoundary = currentAttendanceBoundary;
@@ -23,8 +23,8 @@ public final class PoolTrackingConfiguration {
         return isEnabled;
     }
 
-    public PoolTrackingConfiguration enable(boolean isEnabled) {
-        return new PoolTrackingConfiguration(isEnabled, totalAttendanceBoundary, currentAttendanceBoundary, totalTimeRange, currentTimeRange);
+    public PoolTracking enable(boolean isEnabled) {
+        return new PoolTracking(isEnabled, totalAttendanceBoundary, currentAttendanceBoundary, totalTimeRange, currentTimeRange);
     }
 
     public int totalAttendanceBoundary() {
@@ -35,8 +35,8 @@ public final class PoolTrackingConfiguration {
         return currentAttendanceBoundary;
     }
 
-    public PoolTrackingConfiguration withCurrentAttendanceBoundary(int boundary) {
-        return new PoolTrackingConfiguration(isEnabled, totalAttendanceBoundary, boundary, totalTimeRange, currentTimeRange);
+    public PoolTracking withCurrentAttendanceBoundary(int boundary) {
+        return new PoolTracking(isEnabled, totalAttendanceBoundary, boundary, totalTimeRange, currentTimeRange);
     }
 
     public TimeRange totalTimeRange() {
@@ -47,7 +47,7 @@ public final class PoolTrackingConfiguration {
         return currentTimeRange;
     }
 
-    public PoolTrackingConfiguration withCurrentTimeRange(TimeRange timeRange) {
-        return new PoolTrackingConfiguration(isEnabled, totalAttendanceBoundary, currentAttendanceBoundary, totalTimeRange, timeRange);
+    public PoolTracking withCurrentTimeRange(TimeRange timeRange) {
+        return new PoolTracking(isEnabled, totalAttendanceBoundary, currentAttendanceBoundary, totalTimeRange, timeRange);
     }
 }

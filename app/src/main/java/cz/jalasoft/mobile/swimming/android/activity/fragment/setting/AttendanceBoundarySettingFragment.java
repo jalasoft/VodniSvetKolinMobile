@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import cz.jalasoft.mobile.swimming.R;
 import cz.jalasoft.mobile.swimming.android.activity.widget.RangeSeekBar;
-import cz.jalasoft.mobile.swimming.domain.model.track.PoolTrackingConfiguration;
+import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTracking;
 
 import static cz.jalasoft.mobile.swimming.android.Application.applicationService;
 
@@ -28,11 +28,11 @@ public final class AttendanceBoundarySettingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.setting_set_attendance_boundary, container);
+        View view = inflater.inflate(R.layout.setting_attendance_boundary, container);
 
         numberView = numberView(view);
 
-        PoolTrackingConfiguration configuration = applicationService().trackingConfiguration();
+        PoolTracking configuration = applicationService().trackingConfiguration();
         int currentAttendanceBoundary = configuration.currentAttendanceBoundary();
         int totalAttendanceBoundary = configuration.totalAttendanceBoundary();
         boolean enabled = configuration.isEnabled();
