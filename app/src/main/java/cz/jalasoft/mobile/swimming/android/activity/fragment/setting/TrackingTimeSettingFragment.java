@@ -21,9 +21,12 @@ import static cz.jalasoft.mobile.swimming.android.Application.applicationService
 /**
  * Created by Honza "Honzales" Lastovicka on 1/28/16.
  */
-public final class SetTrackingTimeSettingFragment extends Fragment {
+public final class TrackingTimeSettingFragment extends Fragment {
 
     private TextView timeRangeView;
+    private RangeSeekBar<?> timeBar;
+
+    private Listener listener = Listener.DUMMY;
 
     @Nullable
     @Override
@@ -36,11 +39,18 @@ public final class SetTrackingTimeSettingFragment extends Fragment {
 
         TimeRange currentTimeRange = configuration.currentTimeRange();
         TimeRange totalTimeRange = configuration.totalTimeRange();
+        boolean enabled = configuration.isEnabled();
 
-        RangeSeekBar<?> timeRangeBar = seekBar(currentTimeRange, totalTimeRange);
-        layout(view).addView(timeRangeBar);
+        timeBar = seekBar(currentTimeRange, totalTimeRange);
+        layout(view).addView(timeBar);
 
         displayTimeRange(currentTimeRange);
+
+        if (enabled) {
+            enable();
+        } else {
+            disable();
+        }
 
         return view;
     }
@@ -53,8 +63,8 @@ public final class SetTrackingTimeSettingFragment extends Fragment {
         timeRangeView.setText(timeRange.toString());
     }
 
-    private void updateCurrentTimeRange(TimeRange newTimeRange) {
-        applicationService().saveTrackingTimeRange(newTimeRange);
+    private void notifyListener(TimeRange newTimeRange) {
+        listener.onTrackingTimeSelected(newTimeRange);
     }
 
     private LinearLayout layout(View view) {
@@ -77,7 +87,7 @@ public final class SetTrackingTimeSettingFragment extends Fragment {
                 TimeRange newTimeRange = converter.currentTimeRange();
 
                 displayTimeRange(newTimeRange);
-                updateCurrentTimeRange(newTimeRange);
+                notifyListener(newTimeRange);
             }
         });
 
@@ -85,6 +95,29 @@ public final class SetTrackingTimeSettingFragment extends Fragment {
         timeSeekBar.setSelectedMaxValue(converter.currentMaxValue());
 
         return timeSeekBar;
+    }
+
+    //---------------------------------------------------------------------------------
+    //PUBLIC INTERFACE
+    //---------------------------------------------------------------------------------
+
+    public void setListener(Listener listener) {
+        if (listener == null) {
+            throw new IllegalArgumentException("Listener must not be null.");
+        }
+        this.listener = listener;
+    }
+
+    public void unsetListener() {
+        this.listener = Listener.DUMMY;
+    }
+
+    public void enable() {
+        timeBar.setVisibility(View.INVISIBLE);
+    }
+
+    public void disable() {
+        timeBar.setVisibility(View.VISIBLE);
     }
 
     //---------------------------------------------------------------------------------
@@ -157,6 +190,20 @@ public final class SetTrackingTimeSettingFragment extends Fragment {
         TimeRange currentTimeRange() {
             return TimeRange.from(startTime(), endTime());
         }
+    }
+
+    //---------------------------------------------------------------------------------------------
+    //LISTENER
+    //---------------------------------------------------------------------------------------------
+
+    public interface Listener {
+
+        Listener DUMMY = new Listener() {
+            @Override
+            public void onTrackingTimeSelected(TimeRange timeRange) {}
+        };
+
+        void onTrackingTimeSelected(TimeRange timeRange);
     }
 }
 

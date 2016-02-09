@@ -135,7 +135,6 @@ public final class AttendanceDisplayFragment extends Fragment {
 
         switch (attendanceString.length()) {
             case 1:
-                return "  " + attendanceString;
             case 2:
                 return "  " + attendanceString;
             default:

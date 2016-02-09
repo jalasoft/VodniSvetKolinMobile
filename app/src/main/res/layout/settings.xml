@@ -11,14 +11,14 @@
         android:layout_height="wrap_content"/>
 
     <fragment
-        android:id="@+id/setting_set_attendance_boundary_fragment"
-        android:name="cz.jalasoft.mobile.swimming.android.activity.fragment.setting.SetAttendanceBoundarySettingFragment"
+        android:id="@+id/setting_attendance_boundary_fragment"
+        android:name="cz.jalasoft.mobile.swimming.android.activity.fragment.setting.AttendanceBoundarySettingFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <fragment
-        android:id="@+id/setting_set_tracking_time_fragment"
-        android:name="cz.jalasoft.mobile.swimming.android.activity.fragment.setting.SetTrackingTimeSettingFragment"
+        android:id="@+id/setting_tracking_time_fragment"
+        android:name="cz.jalasoft.mobile.swimming.android.activity.fragment.setting.TrackingTimeSettingFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>

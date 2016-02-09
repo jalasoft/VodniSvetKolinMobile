@@ -18,9 +18,12 @@ import static cz.jalasoft.mobile.swimming.android.Application.applicationService
 /**
  * Created by Honza "Honzales" Lastovicka on 1/28/16.
  */
-public final class SetAttendanceBoundarySettingFragment extends Fragment {
+public final class AttendanceBoundarySettingFragment extends Fragment {
 
     private TextView numberView;
+    private RangeSeekBar<?> boundaryBar;
+
+    private Listener listener = Listener.DUMMY;
 
     @Nullable
     @Override
@@ -32,11 +35,18 @@ public final class SetAttendanceBoundarySettingFragment extends Fragment {
         PoolTrackingConfiguration configuration = applicationService().trackingConfiguration();
         int currentAttendanceBoundary = configuration.currentAttendanceBoundary();
         int totalAttendanceBoundary = configuration.totalAttendanceBoundary();
+        boolean enabled = configuration.isEnabled();
 
         displayAttendance(currentAttendanceBoundary);
 
-        RangeSeekBar<?> attendanceSeekBar = seekBar(currentAttendanceBoundary, totalAttendanceBoundary);
-        layout(view).addView(attendanceSeekBar);
+        boundaryBar = seekBar(currentAttendanceBoundary, totalAttendanceBoundary);
+        layout(view).addView(boundaryBar);
+
+        if (!enabled) {
+            disable();
+        } else {
+            enable();
+        }
 
         return view;
     }
@@ -49,8 +59,8 @@ public final class SetAttendanceBoundarySettingFragment extends Fragment {
         numberView.setText("" + attendance);
     }
 
-    private void saveAttendance(int attendance) {
-        applicationService().saveTrackingAttendance(attendance);
+    private void notifyListener(int attendance) {
+        listener.onAttendanceBoundarySelected(attendance);
     }
 
     private LinearLayout layout(View view) {
@@ -65,10 +75,49 @@ public final class SetAttendanceBoundarySettingFragment extends Fragment {
             @Override
             public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
                 displayAttendance(maxValue);
-                saveAttendance(maxValue);
+                notifyListener(maxValue);
             }
         });
 
         return timeSeekBar;
+    }
+
+    //---------------------------------------------------------------------------------
+    //PUBLIC INTERFACE
+    //---------------------------------------------------------------------------------
+
+    public void setListener(Listener listener) {
+        if (listener == null) {
+            throw new IllegalArgumentException("Listener must not be null.");
+        }
+        this.listener = listener;
+    }
+
+    public void unsetListener() {
+        this.listener = Listener.DUMMY;
+    }
+
+    public void enable() {
+        boundaryBar.setVisibility(View.INVISIBLE);
+    }
+
+    public void disable() {
+        boundaryBar.setVisibility(View.VISIBLE);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    //LISTENER
+    //---------------------------------------------------------------------------------------------
+
+    public interface Listener {
+
+        Listener DUMMY = new Listener() {
+            @Override
+            public void onAttendanceBoundarySelected(int boundary) {
+
+            }
+        };
+
+        void onAttendanceBoundarySelected(int boundary);
     }
 }

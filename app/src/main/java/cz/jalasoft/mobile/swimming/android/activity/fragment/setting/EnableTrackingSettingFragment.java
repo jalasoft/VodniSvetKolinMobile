@@ -19,6 +19,8 @@ public final class EnableTrackingSettingFragment extends Fragment {
 
     private CheckBox checkBox;
 
+    private Listener listener = Listener.DUMMY;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,7 +35,7 @@ public final class EnableTrackingSettingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 boolean isTrackingEnabled = ((CheckBox) v).isChecked();
-                saveEnabled(isTrackingEnabled);
+                notifyListener(isTrackingEnabled);
             }
         });
 
@@ -42,7 +44,7 @@ public final class EnableTrackingSettingFragment extends Fragment {
             public void onClick(View v) {
                 boolean isChecked = !checkBox.isChecked();
                 checkBox.setChecked(isChecked);
-                saveEnabled(isChecked);
+                notifyListener(isChecked);
             }
         });
 
@@ -53,7 +55,45 @@ public final class EnableTrackingSettingFragment extends Fragment {
         return (CheckBox) view.findViewById(R.id.enableTrackingCheckboxId);
     }
 
-    private void saveEnabled(boolean enabled) {
-        applicationService().enableTracking(enabled);
+    private void notifyListener(boolean enabled) {
+        if (enabled) {
+            listener.onTrackingEnabled();
+        } else {
+            listener.onTrackingDisabled();
+        }
+    }
+
+    //---------------------------------------------------------------------------------
+    //PUBLIC INTERFACE
+    //---------------------------------------------------------------------------------
+
+    public void setListener(Listener listener) {
+        if (listener == null) {
+            throw new IllegalArgumentException("Listener must not be null.");
+        }
+        this.listener = listener;
+    }
+
+    public void unsetListener() {
+        this.listener = Listener.DUMMY;
+    }
+
+    //----------------------------------------------------------------------------------
+    //LISTENER
+    // ---------------------------------------------------------------------------------
+
+    public interface Listener {
+
+        Listener DUMMY = new Listener() {
+            @Override
+            public void onTrackingEnabled() {}
+
+            @Override
+            public void onTrackingDisabled() {}
+        };
+
+        void onTrackingEnabled();
+
+        void onTrackingDisabled();
     }
 }

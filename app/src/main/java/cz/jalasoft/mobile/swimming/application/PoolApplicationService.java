@@ -36,11 +36,11 @@ public final class PoolApplicationService {
         return repository.get();
     }
 
-    public void saveTrackingTimeRange(TimeRange timeRange) {
+    public void saveTrackingTime(TimeRange timeRange) {
         repository.saveTimeRange(timeRange);
     }
 
-    public void saveTrackingAttendance(int attendance) {
+    public void saveAttendanceBoundary(int attendance) {
         repository.saveAttendance(attendance);
     }
 
