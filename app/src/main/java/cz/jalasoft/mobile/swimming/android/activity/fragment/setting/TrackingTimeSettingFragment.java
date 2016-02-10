@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import cz.jalasoft.mobile.swimming.R;
 import cz.jalasoft.mobile.swimming.android.activity.widget.RangeSeekBar;
-import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTracking;
+import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTrackingDescriptor;
 import cz.jalasoft.mobile.swimming.domain.model.tracking.TimeOfDay;
 import cz.jalasoft.mobile.swimming.domain.model.tracking.TimeRange;
 
@@ -35,7 +35,7 @@ public final class TrackingTimeSettingFragment extends Fragment {
 
         timeRangeView = timeRangeView(view);
 
-        PoolTracking configuration = applicationService().trackingConfiguration();
+        PoolTrackingDescriptor configuration = applicationService().trackingConfiguration();
 
         TimeRange currentTimeRange = configuration.currentTimeRange();
         TimeRange totalTimeRange = configuration.totalTimeRange();

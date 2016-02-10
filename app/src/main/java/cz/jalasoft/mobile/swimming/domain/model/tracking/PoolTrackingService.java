@@ -5,6 +5,7 @@ import java.util.Date;
 import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatus;
 import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatusService;
 import cz.jalasoft.mobile.swimming.util.AsyncCallback;
+import cz.jalasoft.mobile.swimming.util.Optional;
 
 /**
  * Created by Honza "Honzales" Lastovicka on 2/1/16.
@@ -12,49 +13,56 @@ import cz.jalasoft.mobile.swimming.util.AsyncCallback;
 public final class PoolTrackingService {
 
     private final PoolStatusService statusService;
-    private final PoolTrackingRepository configRepository;
+    private final PoolTrackingDescriptorRepository configRepository;
 
-    public PoolTrackingService(PoolStatusService statusService, PoolTrackingRepository configRepository) {
+    public PoolTrackingService(PoolStatusService statusService, PoolTrackingDescriptorRepository configRepository) {
         this.statusService = statusService;
         this.configRepository = configRepository;
     }
 
-    public void performTrackingStep() {
-        final PoolTracking tracking = configRepository.get();
+    public void performTracking(final AsyncCallback<Optional<PoolTracking>> callback) {
+        final PoolTrackingDescriptor descriptor = configRepository.get();
 
-        boolean isTrackingEnabled = tracking.isEnabled();
-        if (!isTrackingEnabled) {
-            //this should never happen
-            return;
-        }
-
-        TimeOfDay time = TimeOfDay.from(new Date());
-        boolean isTimeToTrack = tracking.currentTimeRange().isTimeInRange(time);
-
-        if (!isTimeToTrack) {
-            return;
+        if (!canPerformTracking(descriptor)) {
+            callback.process(Optional.<PoolTracking>empty());
         }
 
         statusService.getStatusAsynchronously(new AsyncCallback<PoolStatus>() {
             @Override
             public void process(PoolStatus poolStatus) {
-                finishTracking(poolStatus, tracking);
+                Optional<PoolTracking> tracking = performTracking(poolStatus, descriptor);
+                callback.process(tracking);
             }
 
             @Override
             public void processFail(Exception exc) {
-                //asi nic no
+                callback.processFail(exc);
             }
         });
     }
 
-    private void finishTracking(PoolStatus poolStatus, PoolTracking configuration) {
-        if (!poolStatus.isOpen()) {
+    private boolean canPerformTracking(PoolTrackingDescriptor descriptor) {
+        boolean isTrackingEnabled = descriptor.isEnabled();
+        if (!isTrackingEnabled) {
             //this should never happen
+            return false;
         }
 
-        int attendanceBoundary = configuration.currentAttendanceBoundary();
+        TimeOfDay time = TimeOfDay.from(new Date());
+        boolean isTimeToTrack = descriptor.currentTimeRange().isTimeInRange(time);
+
+        return isTimeToTrack;
+    }
+
+    private Optional<PoolTracking> performTracking(PoolStatus poolStatus, PoolTrackingDescriptor descriptor) {
+        if (!poolStatus.isOpen()) {
+            //this should never happen
+            return Optional.empty();
+        }
+
+        int attendanceBoundary = descriptor.currentAttendanceBoundary();
         int currentAttendance = poolStatus.attendanceTotal();
 
+        return Optional.empty();
     }
 }

@@ -4,15 +4,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import cz.jalasoft.mobile.swimming.R;
-import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTracking;
-import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTrackingRepository;
+import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTrackingDescriptor;
+import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTrackingDescriptorRepository;
 import cz.jalasoft.mobile.swimming.domain.model.tracking.TimeOfDay;
 import cz.jalasoft.mobile.swimming.domain.model.tracking.TimeRange;
 
 /**
  * Created by Honza "Honzales" Lastovicka on 1/30/16.
  */
-public final class SharedPreferencesPoolTrackingRepository implements PoolTrackingRepository {
+public final class SharedPreferencesPoolTrackingDescritorRepository implements PoolTrackingDescriptorRepository {
 
     private static final boolean DEFAULT_TRACKING_ENABLED = false;
     private static final String TRACKING_ENABLED_KEY = "trackingEnabled";
@@ -29,20 +29,25 @@ public final class SharedPreferencesPoolTrackingRepository implements PoolTracki
     private static final TimeOfDay MAX_END_TRACKING_TIME_OF_DAY = TimeOfDay.from(MAX_END_TRACKING_TIME);
 
     private static final TimeRange TOTAL_TIME_RANGE = TimeRange.from(MIN_START_TRACKING_TIME_OF_DAY, MAX_END_TRACKING_TIME_OF_DAY);
+
+    private static final long DEFAULT_TRACKING_INTERVAL_MILLIS = 5000;
+    private static final String TRACKING_INTERVAL_MILLIS_KEY = "trackingIntervalMillis";
+
     private final SharedPreferences preferences;
 
-    public SharedPreferencesPoolTrackingRepository(Context context) {
+    public SharedPreferencesPoolTrackingDescritorRepository(Context context) {
         String preferenceName = context.getString(R.string.setting_preference_name);
         preferences = context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE);
     }
 
     @Override
-    public PoolTracking get() {
+    public PoolTrackingDescriptor get() {
         boolean isTrackingEnabled = readTrackingEnabled();
         int currentAttendance = readAttendanceBoundary();
         TimeRange currentTimeRange = readTimeRange();
+        long trackingIntervalMillis = readTrackingIntervalMillis();
 
-        return new PoolTracking(isTrackingEnabled, TOTAL_ATTENDANCE_BOUNDARY, currentAttendance, TOTAL_TIME_RANGE, currentTimeRange);
+        return new PoolTrackingDescriptor(isTrackingEnabled, TOTAL_ATTENDANCE_BOUNDARY, currentAttendance, TOTAL_TIME_RANGE, currentTimeRange, trackingIntervalMillis);
     }
 
     private int readAttendanceBoundary() {
@@ -63,6 +68,10 @@ public final class SharedPreferencesPoolTrackingRepository implements PoolTracki
 
     private boolean readTrackingEnabled() {
         return preferences.getBoolean(TRACKING_ENABLED_KEY, DEFAULT_TRACKING_ENABLED);
+    }
+
+    private long readTrackingIntervalMillis() {
+        return preferences.getLong(TRACKING_ENABLED_KEY, DEFAULT_TRACKING_INTERVAL_MILLIS);
     }
 
     @Override

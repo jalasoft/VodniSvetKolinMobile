@@ -1,24 +1,24 @@
 package cz.jalasoft.mobile.swimming.infrastructure.persistence;
 
-import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTracking;
-import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTrackingRepository;
+import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTrackingDescriptor;
+import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTrackingDescriptorRepository;
 import cz.jalasoft.mobile.swimming.domain.model.tracking.TimeRange;
 
 /**
  * Created by Honza "Honzales" Lastovicka on 1/31/16.
  */
-public final class CachingPoolTrackingRepository implements PoolTrackingRepository {
+public final class CachingPoolTrackingDescriptorRepository implements PoolTrackingDescriptorRepository {
 
-    private final PoolTrackingRepository decorated;
+    private final PoolTrackingDescriptorRepository decorated;
 
-    private PoolTracking configuration;
+    private PoolTrackingDescriptor configuration;
 
-    public CachingPoolTrackingRepository(PoolTrackingRepository decorated) {
+    public CachingPoolTrackingDescriptorRepository(PoolTrackingDescriptorRepository decorated) {
         this.decorated = decorated;
     }
 
     @Override
-    public PoolTracking get() {
+    public PoolTrackingDescriptor get() {
         if (configuration != null) {
             return configuration;
         }

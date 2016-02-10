@@ -1,53 +1,31 @@
 package cz.jalasoft.mobile.swimming.domain.model.tracking;
 
 /**
- * Created by Honza "Honzales" Lastovicka on 1/30/16.
+ * Created by Honza "Honzales" Lastovicka on 2/10/16.
  */
 public final class PoolTracking {
 
-    private final boolean isEnabled;
-    private final int totalAttendanceBoundary;
-    private final int currentAttendanceBoundary;
-    private final TimeRange totalTimeRange;
-    private final TimeRange currentTimeRange;
+    private final int currentAttendance;
+    private final PoolTrackingDescriptor descriptor;
 
-    public PoolTracking(boolean isEnabled, int totalAttendanceBoundary, int currentAttendanceBoundary, TimeRange totalTimeRange, TimeRange currentTimeRange) {
-        this.isEnabled = isEnabled;
-        this.totalAttendanceBoundary = totalAttendanceBoundary;
-        this.currentAttendanceBoundary = currentAttendanceBoundary;
-        this.totalTimeRange = totalTimeRange;
-        this.currentTimeRange = currentTimeRange;
+    public PoolTracking(int currentAttendance, PoolTrackingDescriptor descriptor) {
+        if (currentAttendance < 0) {
+            throw new IllegalArgumentException("Current attendance must not be negative number.");
+        }
+        if (descriptor == null) {
+            throw new IllegalArgumentException("Pool tracking descriptor must not be null.");
+        }
+
+        this.currentAttendance = currentAttendance;
+        this.descriptor = descriptor;
     }
 
-    public boolean isEnabled() {
-        return isEnabled;
+    public int currentAttendance() {
+        return currentAttendance;
     }
 
-    public PoolTracking enable(boolean isEnabled) {
-        return new PoolTracking(isEnabled, totalAttendanceBoundary, currentAttendanceBoundary, totalTimeRange, currentTimeRange);
+    public int attendanceBoundary() {
+        return descriptor.currentAttendanceBoundary();
     }
 
-    public int totalAttendanceBoundary() {
-        return totalAttendanceBoundary;
-    }
-
-    public int currentAttendanceBoundary() {
-        return currentAttendanceBoundary;
-    }
-
-    public PoolTracking withCurrentAttendanceBoundary(int boundary) {
-        return new PoolTracking(isEnabled, totalAttendanceBoundary, boundary, totalTimeRange, currentTimeRange);
-    }
-
-    public TimeRange totalTimeRange() {
-        return totalTimeRange;
-    }
-
-    public TimeRange currentTimeRange() {
-        return currentTimeRange;
-    }
-
-    public PoolTracking withCurrentTimeRange(TimeRange timeRange) {
-        return new PoolTracking(isEnabled, totalAttendanceBoundary, currentAttendanceBoundary, totalTimeRange, timeRange);
-    }
 }
