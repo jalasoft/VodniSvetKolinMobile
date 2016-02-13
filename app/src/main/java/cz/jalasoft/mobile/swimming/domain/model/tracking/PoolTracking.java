@@ -1,27 +1,29 @@
 package cz.jalasoft.mobile.swimming.domain.model.tracking;
 
+import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatus;
+
 /**
  * Created by Honza "Honzales" Lastovicka on 2/10/16.
  */
 public final class PoolTracking {
 
-    private final int currentAttendance;
+    private final PoolStatus status;
     private final PoolTrackingDescriptor descriptor;
 
-    public PoolTracking(int currentAttendance, PoolTrackingDescriptor descriptor) {
-        if (currentAttendance < 0) {
-            throw new IllegalArgumentException("Current attendance must not be negative number.");
+    public PoolTracking(PoolStatus status, PoolTrackingDescriptor descriptor) {
+        if (status == null) {
+            throw new IllegalArgumentException("Pool status must not be null.");
         }
         if (descriptor == null) {
             throw new IllegalArgumentException("Pool tracking descriptor must not be null.");
         }
 
-        this.currentAttendance = currentAttendance;
+        this.status = status;
         this.descriptor = descriptor;
     }
 
     public int currentAttendance() {
-        return currentAttendance;
+        return status.attendanceTotal();
     }
 
     public int attendanceBoundary() {

@@ -13,6 +13,6 @@ public final class AttendanceTrackingIntentReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        applicationService().performTrackingStep();
+        applicationService().performTracking();
     }
 }

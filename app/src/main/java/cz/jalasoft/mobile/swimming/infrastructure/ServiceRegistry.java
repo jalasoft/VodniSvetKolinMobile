@@ -25,6 +25,7 @@ public final class ServiceRegistry {
                 new HttpPagePoolStatusService("http://vodnisvetkolin.cz/Default.aspx"),
                 poolTrackingRepository,
                 new NotificationPoolTrackingPublisher(context),
+                new SharedPreferencesPoolTrackingPolicy(context),
                 new AlarmManagerScheduler(context)
         );
     }

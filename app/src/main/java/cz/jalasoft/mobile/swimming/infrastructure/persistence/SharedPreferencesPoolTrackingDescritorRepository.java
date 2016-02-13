@@ -71,7 +71,7 @@ public final class SharedPreferencesPoolTrackingDescritorRepository implements P
     }
 
     private long readTrackingIntervalMillis() {
-        return preferences.getLong(TRACKING_ENABLED_KEY, DEFAULT_TRACKING_INTERVAL_MILLIS);
+        return preferences.getLong(TRACKING_INTERVAL_MILLIS_KEY, DEFAULT_TRACKING_INTERVAL_MILLIS);
     }
 
     @Override
