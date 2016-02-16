@@ -30,4 +30,11 @@ public final class PoolTracking {
         return descriptor.currentAttendanceBoundary();
     }
 
+    public boolean isAttendanceAboveBoundary() {
+        return status.attendanceTotal() > descriptor.currentAttendanceBoundary();
+    }
+
+    public boolean isAttendanceBelowOrEqualToBoundary() {
+        return status.attendanceTotal() < descriptor.currentAttendanceBoundary();
+    }
 }
