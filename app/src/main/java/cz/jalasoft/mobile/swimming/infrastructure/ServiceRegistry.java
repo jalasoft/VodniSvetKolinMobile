@@ -7,6 +7,7 @@ import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTrackingDescriptorR
 import cz.jalasoft.mobile.swimming.infrastructure.persistence.CachingPoolTrackingDescriptorRepository;
 import cz.jalasoft.mobile.swimming.infrastructure.persistence.SharedPreferencesPoolTrackingDescritorRepository;
 import cz.jalasoft.mobile.swimming.infrastructure.services.poolstatus.HttpPagePoolStatusService;
+import cz.jalasoft.mobile.swimming.infrastructure.services.poolstatus.dummy.DummyPoolStatusService;
 
 /**
  * A registry of domain objects.
@@ -23,6 +24,7 @@ public final class ServiceRegistry {
 
         this.poolTrackingService = new PoolApplicationService(
                 new HttpPagePoolStatusService("http://vodnisvetkolin.cz/Default.aspx"),
+                //new DummyPoolStatusService(),
                 poolTrackingRepository,
                 new NotificationPoolTrackingPublisher(context),
                 new SharedPreferencesPoolTrackingPolicy(context),

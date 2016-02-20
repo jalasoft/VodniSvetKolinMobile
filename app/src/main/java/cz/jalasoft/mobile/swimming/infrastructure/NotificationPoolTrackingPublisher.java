@@ -22,6 +22,8 @@ import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTrackingPublisher;
  */
 public final class NotificationPoolTrackingPublisher implements PoolTrackingPublisher {
 
+    private static final int NOTIFICATION_ID = 1983;
+
     private final Context context;
     private final NotificationManager notificationManager;
 
@@ -39,31 +41,48 @@ public final class NotificationPoolTrackingPublisher implements PoolTrackingPubl
                 .setContentTitle(title)
                 .setContentText(text)
                 .setContentIntent(intent())
-                //.setSmallIcon()
+                .setSmallIcon(icon(tracking))
                 //.setLargeIcon()
                 .build();
 
-        notificationManager.notify(0, notification);
+        notificationManager.notify(NOTIFICATION_ID, notification);
 
         playSoundOrVibrate();
     }
 
     private String title(PoolTracking tracking) {
+        String titlePattern;
         if (tracking.isAttendanceBelowOrEqualToBoundary()) {
-            return context.getString(R.string.notification_title_below);
+            titlePattern = context.getString(R.string.notification_title_below);
         } else if (tracking.isAttendanceAboveBoundary()) {
-            return context.getString(R.string.notification_title_below);
+            titlePattern = context.getString(R.string.notification_title_above);
+        } else {
+            throw new IllegalStateException("Unexpected tracking status.");
         }
-        return null;
+
+        return String.format(titlePattern, tracking.attendanceBoundary());
     }
 
     private String text(PoolTracking tracking) {
         if (tracking.isAttendanceBelowOrEqualToBoundary()) {
             return context.getString(R.string.notification_text_below);
-        } else if (tracking.isAttendanceAboveBoundary()) {
-            return context.getString(R.string.notification_text_below);
         }
-        return null;
+        if (tracking.isAttendanceAboveBoundary()) {
+            return context.getString(R.string.notification_text_above);
+        }
+
+        throw new IllegalStateException("Unexpected tracking status.");
+    }
+
+    private int icon(PoolTracking tracking) {
+        if (tracking.isAttendanceBelowOrEqualToBoundary()) {
+            return R.drawable.ic_notification_attendance_down;
+        }
+        if (tracking.isAttendanceAboveBoundary()) {
+            return R.drawable.ic_notification_attendance_up;
+        }
+
+        throw new IllegalStateException("Unexpected tracking status.");
     }
 
     private PendingIntent intent() {

@@ -26,8 +26,8 @@
 
     <string name="setting_preference_name">setting_preference</string>
 
-    <string name="notification_title_below">Ve Vodním Světě je méně jak %d lidí.</string>
-    <string name="notification_title_above">Ve Vodním Světě je více jak %d lidí.</string>
-    <string name="notification_text_below">Aktuálně je ve Vodním světě Kolín méně jak %d lidí.</string>
-    <string name="notification_text_above">Aktuálně je ve Vodním Světě Kolín více jak %d lidí.</string>
+    <string name="notification_title_below">Méně jak %d lidí plave.</string>
+    <string name="notification_title_above">Více jak %d lidí plave.</string>
+    <string name="notification_text_below">Málo lidí je ve Vodním světě Kolín.</string>
+    <string name="notification_text_above">Hodně lidí je ve Vodním Světě Kolín.</string>
 </resources>
