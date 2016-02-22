@@ -2,6 +2,8 @@ package cz.jalasoft.mobile.swimming.infrastructure;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import java.util.Date;
 
@@ -21,15 +23,21 @@ public final class SharedPreferencesPoolTrackingPolicy implements PoolTrackingPo
     private static final int INITIAL_ATTENDANCE_VALUE = -1;
 
     private final SharedPreferences preferences;
+    private final ConnectivityManager connectivityManager;
 
     public SharedPreferencesPoolTrackingPolicy(Context context) {
         this.preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+        this.connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
     public boolean canPoolBeTracked(PoolTrackingDescriptor descriptor) {
         boolean isTrackingEnabled = descriptor.isEnabled();
         if (!isTrackingEnabled) {
             //this should never happen
+            return false;
+        }
+
+        if (!isConnectionAvailable()) {
             return false;
         }
 
@@ -41,6 +49,12 @@ public final class SharedPreferencesPoolTrackingPolicy implements PoolTrackingPo
         boolean isTimeToTrack = descriptor.currentTimeRange().isTimeInRange(time);
 
         return isTimeToTrack;
+    }
+
+    private boolean isConnectionAvailable() {
+        NetworkInfo network = connectivityManager.getActiveNetworkInfo();
+        boolean result = network.isConnected();
+        return result;
     }
 
     public boolean canPoolTrackingBePublished(PoolTracking poolTracking) {

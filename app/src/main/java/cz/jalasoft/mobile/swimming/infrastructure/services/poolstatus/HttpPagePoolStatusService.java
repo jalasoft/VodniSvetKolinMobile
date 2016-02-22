@@ -1,5 +1,9 @@
 package cz.jalasoft.mobile.swimming.infrastructure.services.poolstatus;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -8,6 +12,7 @@ import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatus;
 import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatusService;
 import cz.jalasoft.mobile.swimming.util.AsyncCallback;
 import cz.jalasoft.mobile.swimming.util.CallbackAsyncTask;
+import cz.jalasoft.mobile.swimming.util.Optional;
 import cz.jalasoft.mobile.swimming.util.Provider;
 
 /**
@@ -16,9 +21,11 @@ import cz.jalasoft.mobile.swimming.util.Provider;
 public final class HttpPagePoolStatusService implements PoolStatusService {
 
     private URL pageUrl;
+    private ConnectivityManager connectivityManager;
 
-    public HttpPagePoolStatusService(String pageUrl) {
+    public HttpPagePoolStatusService(String pageUrl, Context context) {
         setUrl(pageUrl);
+        this.connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
     private  void setUrl(String pageUrl) {
@@ -37,14 +44,21 @@ public final class HttpPagePoolStatusService implements PoolStatusService {
     }
 
     @Override
-    public PoolStatus getStatus() throws PoolException {
+    public Optional<PoolStatus> getStatus() throws PoolException {
+
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo == null || !networkInfo.isConnected()) {
+            return Optional.empty();
+        }
+
         WebPage poolPage = WebPage.loadPage(pageUrl);
         PoolStatus pool = PoolStatusFactory.from(poolPage);
-        return pool;
+
+        return Optional.of(pool);
     }
 
     @Override
-    public void getStatusAsynchronously(AsyncCallback<PoolStatus> callback) {
+    public void getStatusAsynchronously(AsyncCallback<Optional<PoolStatus>> callback) {
         Provider<PoolStatus> provider = new Provider() {
             @Override
             public Object get() throws Exception {
@@ -53,12 +67,5 @@ public final class HttpPagePoolStatusService implements PoolStatusService {
         };
 
         new CallbackAsyncTask(provider, callback).execute();
-    }
-
-    public static void main(String[] args) throws PoolException {
-        HttpPagePoolStatusService service = new HttpPagePoolStatusService("http://vodnisvetkolin.cz/Default.aspx");
-
-        PoolStatus info = service.getStatus();
-        System.out.println(info);
     }
 }

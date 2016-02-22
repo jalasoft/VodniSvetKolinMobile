@@ -19,17 +19,25 @@ import cz.jalasoft.mobile.swimming.R;
 import cz.jalasoft.mobile.swimming.android.activity.ApplicationFlow;
 import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatus;
 import cz.jalasoft.mobile.swimming.util.AsyncCallback;
+import cz.jalasoft.mobile.swimming.util.Optional;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
-import static cz.jalasoft.mobile.swimming.android.Application.*;
+import static cz.jalasoft.mobile.swimming.android.Application.applicationService;
 
+/**
+ *
+ */
 public final class AttendanceDisplayFragment extends Fragment {
 
     public static AttendanceDisplayFragment newInstance() {
         AttendanceDisplayFragment fragment = new AttendanceDisplayFragment();
         return fragment;
     }
+
+    //-----------------------------------------------------------
+    //INSTANCE SCOPE
+    //-----------------------------------------------------------
 
     private TextView attendanceTotalText;
     private TextView attendancePercentage;
@@ -38,6 +46,7 @@ public final class AttendanceDisplayFragment extends Fragment {
     private ProgressBar progressBar;
 
     private ApplicationFlow flow;
+    private PoolStatusRenderer statusRenderer;
 
     @Override
     public void onAttach(Activity activity) {
@@ -48,6 +57,7 @@ public final class AttendanceDisplayFragment extends Fragment {
         }
 
         this.flow = (ApplicationFlow) activity;
+        this.statusRenderer = new PoolStatusRenderer(this);
     }
 
     @Override
@@ -98,15 +108,13 @@ public final class AttendanceDisplayFragment extends Fragment {
     private void refresh() {
         showProgress();
 
-        applicationService().poolStatus(new AsyncCallback<PoolStatus>() {
+        applicationService().poolStatus(new AsyncCallback<Optional<PoolStatus>>() {
 
             @Override
-            public void process(PoolStatus pool) {
+            public void process(Optional<PoolStatus> pool) {
                 hideProgress();
 
-                displayAttendanceTotal(pool);
-                displayAttendancePercentage(pool);
-                displayOpenClosed(pool);
+                statusRenderer.render(pool);
             }
 
             @Override
@@ -126,35 +134,15 @@ public final class AttendanceDisplayFragment extends Fragment {
         progressBar.setVisibility(INVISIBLE);
     }
 
-    private void displayAttendanceTotal(PoolStatus pool) {
-        attendanceTotalText.setText(formatAttendanceString(pool));
+    void displayAttendanceTotal(String text) {
+        attendanceTotalText.setText(text);
     }
 
-    private String formatAttendanceString(PoolStatus pool) {
-        String attendanceString = String.valueOf(pool.attendanceTotal());
-
-        switch (attendanceString.length()) {
-            case 1:
-            case 2:
-                return "  " + attendanceString;
-            default:
-                return "  " + attendanceString;
-        }
+    void displayAttendancePercentage(String text) {
+        attendancePercentage.setText(text);
     }
 
-    private void displayAttendancePercentage(PoolStatus pool) {
-        attendancePercentage.setText(pool.attendancePercentage() + "%");
-    }
-
-    private void displayOpenClosed(PoolStatus pool) {
-        if (pool.isOpen()) {
-            updateWithOpen();
-        } else {
-            updateWithClosed();
-        }
-    }
-
-    private void updateWithOpen() {
+    void displayOpen() {
         openClosedImage.setImageResource(R.drawable.ic_semaphore_green);
         openClosedImage.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -165,7 +153,7 @@ public final class AttendanceDisplayFragment extends Fragment {
         });
     }
 
-    private void updateWithClosed() {
+    void displayClosed() {
         openClosedImage.setImageResource(R.drawable.ic_semaphore_red);
         openClosedImage.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -175,7 +163,6 @@ public final class AttendanceDisplayFragment extends Fragment {
             }
         });
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

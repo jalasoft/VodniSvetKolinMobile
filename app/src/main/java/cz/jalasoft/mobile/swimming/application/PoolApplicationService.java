@@ -11,6 +11,7 @@ import cz.jalasoft.mobile.swimming.domain.model.tracking.PoolTrackingService;
 import cz.jalasoft.mobile.swimming.domain.model.tracking.TimeRange;
 import cz.jalasoft.mobile.swimming.infrastructure.AlarmManagerScheduler;
 import cz.jalasoft.mobile.swimming.util.AsyncCallback;
+import cz.jalasoft.mobile.swimming.util.Optional;
 
 /**
  * Created by Honza "Honzales" Lastovicka on 1/30/16.
@@ -41,7 +42,7 @@ public final class PoolApplicationService {
         this.scheduler = scheduler;
     }
 
-    public void poolStatus(final AsyncCallback<PoolStatus> callback) {
+    public void poolStatus(final AsyncCallback<Optional<PoolStatus>> callback) {
         this.statusService.getStatusAsynchronously(callback);
     }
 
@@ -77,12 +78,17 @@ public final class PoolApplicationService {
             return;
         }
 
-        trackingService.performTracking(new AsyncCallback<PoolTracking>() {
+        trackingService.performTracking(new AsyncCallback<Optional<PoolTracking>>() {
             @Override
-            public void process(PoolTracking value) {
+            public void process(Optional<PoolTracking> maybeTracking) {
+                if (maybeTracking.isNotPresent()) {
+                    return;
+                }
 
-                if (trackingPolicy.canPoolTrackingBePublished(value)) {
-                    publisher.publishPoolTracking(value);
+                PoolTracking tracking = maybeTracking.get();
+
+                if (trackingPolicy.canPoolTrackingBePublished(tracking)) {
+                    publisher.publishPoolTracking(tracking);
                 }
             }
 

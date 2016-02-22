@@ -30,10 +30,10 @@ public final class Optional<T> {
     }
 
     public boolean isPresent() {
-        return value == null;
+        return value != null;
     }
 
     public boolean isNotPresent() {
-        return value != null;
+        return value == null;
     }
 }

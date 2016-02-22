@@ -3,6 +3,7 @@ package cz.jalasoft.mobile.swimming.domain.model.tracking;
 import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatus;
 import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatusService;
 import cz.jalasoft.mobile.swimming.util.AsyncCallback;
+import cz.jalasoft.mobile.swimming.util.Optional;
 
 /**
  * Created by Honza "Honzales" Lastovicka on 2/1/16.
@@ -17,13 +18,18 @@ public final class PoolTrackingService {
         this.configRepository = configRepository;
     }
 
-    public void performTracking(final AsyncCallback<PoolTracking> callback) {
+    public void performTracking(final AsyncCallback<Optional<PoolTracking>> callback) {
         final PoolTrackingDescriptor descriptor = configRepository.get();
 
-        statusService.getStatusAsynchronously(new AsyncCallback<PoolStatus>() {
+        statusService.getStatusAsynchronously(new AsyncCallback<Optional<PoolStatus>>() {
             @Override
-            public void process(PoolStatus poolStatus) {
-                callback.process(new PoolTracking(poolStatus, descriptor));
+            public void process(Optional<PoolStatus> maybePoolStatus) {
+                if (maybePoolStatus.isNotPresent()) {
+                    callback.process(Optional.<PoolTracking>empty());
+                } else {
+                    PoolTracking tracking = new PoolTracking(maybePoolStatus.get(), descriptor);
+                    callback.process(Optional.of(tracking));
+                }
             }
 
             @Override

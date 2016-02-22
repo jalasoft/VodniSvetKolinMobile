@@ -8,6 +8,7 @@ import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatus;
 import cz.jalasoft.mobile.swimming.domain.model.status.PoolStatusService;
 import cz.jalasoft.mobile.swimming.util.AsyncCallback;
 import cz.jalasoft.mobile.swimming.util.CallbackAsyncTask;
+import cz.jalasoft.mobile.swimming.util.Optional;
 import cz.jalasoft.mobile.swimming.util.Provider;
 
 /**
@@ -38,16 +39,16 @@ public final class DummyPoolStatusService implements PoolStatusService {
     }
 
     @Override
-    public PoolStatus getStatus() throws PoolException {
+    public Optional<PoolStatus> getStatus() throws PoolException {
         int index = position % STATUSES.size();
         PoolStatus result = STATUSES.get(index);
 
         position++;
-        return result;
+        return Optional.of(result);
     }
 
     @Override
-    public void getStatusAsynchronously(AsyncCallback<PoolStatus> callback) {
+    public void getStatusAsynchronously(AsyncCallback<Optional<PoolStatus>> callback) {
         Provider<PoolStatus> provider = new Provider() {
             @Override
             public Object get() throws Exception {

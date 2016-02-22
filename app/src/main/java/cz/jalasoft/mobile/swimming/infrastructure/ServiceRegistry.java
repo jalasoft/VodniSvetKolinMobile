@@ -23,7 +23,7 @@ public final class ServiceRegistry {
         PoolTrackingDescriptorRepository poolTrackingRepository = poolTrackingRepository(context);
 
         this.poolTrackingService = new PoolApplicationService(
-                new HttpPagePoolStatusService("http://vodnisvetkolin.cz/Default.aspx"),
+                new HttpPagePoolStatusService("http://vodnisvetkolin.cz/Default.aspx", context),
                 //new DummyPoolStatusService(),
                 poolTrackingRepository,
                 new NotificationPoolTrackingPublisher(context),
