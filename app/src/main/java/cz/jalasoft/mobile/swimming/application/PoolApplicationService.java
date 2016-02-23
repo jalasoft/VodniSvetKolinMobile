@@ -63,12 +63,15 @@ public final class PoolApplicationService {
 
         if (enable) {
             trackingPolicy.trackingEnabled();
-
-            long intervalMillis = repository.get().trackingIntervalMillis();
-            scheduler.scheduleRepeating(intervalMillis);
+            scheduleTracking();
         } else {
             scheduler.unschedule();
         }
+    }
+
+    public void scheduleTracking() {
+        long intervalMillis = repository.get().trackingIntervalMillis();
+        scheduler.scheduleRepeating(intervalMillis);
     }
 
     public void performTracking() {

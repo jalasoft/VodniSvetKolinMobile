@@ -7,9 +7,11 @@ import android.content.Intent;
 import static cz.jalasoft.mobile.swimming.android.Application.applicationService;
 
 /**
+ * This receiver receivs an intent as a scheduled execution.
+ *
  * Created by Honza "Honzales" Lastovicka on 2/1/16.
  */
-public final class AttendanceTrackingIntentReceiver extends BroadcastReceiver {
+public final class AlarmTrackingIntentReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {

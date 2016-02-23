@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name=".android.Application"
@@ -26,8 +27,15 @@
         </activity>
 
         <receiver
-            android:name=".android.receiver.AttendanceTrackingIntentReceiver"
+            android:name=".android.receiver.AlarmTrackingIntentReceiver"
             android:enabled="true">
+        </receiver>
+        <receiver
+            android:name=".android.receiver.BootReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
         </receiver>
     </application>
 
